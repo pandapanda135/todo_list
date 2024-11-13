@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c1yvjv5nfw37q"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 0
+offset_right = 1153.0
+offset_bottom = 650.0
+scroll_offset = Vector2(-56, -113)
+
+[node name="GraphNode" type="GraphNode" parent="GraphEdit"]
+layout_mode = 2
+offset_left = 47.0
+offset_top = 320.0
+offset_right = 241.0
+offset_bottom = 375.0
+mouse_filter = 1
+position_offset = Vector2(-9, 207)
+
+[node name="GraphNode2" type="GraphNode" parent="GraphEdit"]
+layout_mode = 2
+offset_left = 568.0
+offset_top = 360.0
+offset_right = 762.0
+offset_bottom = 415.0
+mouse_filter = 1
+position_offset = Vector2(512, 247)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 374.0
+offset_top = 105.0
+offset_right = 529.0
+offset_bottom = 278.0
+scale = Vector2(2.03495, 1.88375)
+
+[node name="GraphNode" type="GraphNode" parent="VBoxContainer"]
+layout_mode = 2
+offset_right = 155.0
+offset_bottom = 55.0
+mouse_filter = 1
+
+[node name="GraphNode2" type="GraphNode" parent="VBoxContainer"]
+layout_mode = 2
+offset_top = 59.0
+offset_right = 155.0
+offset_bottom = 114.0
+mouse_filter = 1
+
+[node name="GraphNode3" type="GraphNode" parent="VBoxContainer"]
+layout_mode = 2
+offset_top = 118.0
+offset_right = 155.0
+offset_bottom = 173.0
+mouse_filter = 1

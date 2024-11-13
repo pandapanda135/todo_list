@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck58ceim2dhbu"]
+
+[ext_resource type="Script" path="res://save_title.gd" id="1_dorev"]
+[ext_resource type="Script" path="res://scripts/save_system.gd" id="1_ucxae"]
+[ext_resource type="Script" path="res://save_location.gd" id="3_4oxfu"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="." groups=["persist"]]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ucxae")
+title_node = NodePath("LineEdit")
+description_node = NodePath("TextEdit")
+
+[node name="LineEdit" type="LineEdit" parent="Control" groups=["persist"]]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 34.0
+offset_right = 603.0
+offset_bottom = 84.0
+placeholder_text = "Text for Name"
+script = ExtResource("1_dorev")
+
+[node name="TextEdit" type="TextEdit" parent="Control" groups=["persist"]]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 140.0
+offset_right = 605.0
+offset_bottom = 409.0
+placeholder_text = "Text for description "
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 19.0
+offset_right = 1038.0
+offset_bottom = 50.0
+text = "go to save location"
+script = ExtResource("3_4oxfu")
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 782.0
+offset_top = 84.0
+offset_right = 1039.0
+offset_bottom = 115.0
+text = "save"
+
+[connection signal="pressed" from="Button2" to="Control" method="save_game"]
