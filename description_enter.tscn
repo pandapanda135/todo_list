@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://6ci0vroscf37"]
+
+[node name="TextEdit" type="TextEdit" groups=["persist"]]
+offset_left = 25.0
+offset_top = 140.0
+offset_right = 605.0
+offset_bottom = 409.0
+placeholder_text = "Text for description "
