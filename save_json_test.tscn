@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck58ceim2dhbu"]
+[gd_scene load_steps=6 format=3 uid="uid://ck58ceim2dhbu"]
 
 [ext_resource type="Script" path="res://scripts/save_system.gd" id="1_ucxae"]
 [ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_1krdl"]
-[ext_resource type="Script" path="res://save_location.gd" id="3_4oxfu"]
+[ext_resource type="Script" path="res://scripts/save_location.gd" id="3_4oxfu"]
+[ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_j05fx"]
+[ext_resource type="Script" path="res://scripts/save_string_handler.gd" id="4_mcqyo"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -27,13 +29,13 @@ offset_top = 46.0
 offset_right = 617.0
 offset_bottom = 96.0
 
-[node name="TextEdit" type="TextEdit" parent="Control" groups=["persist"]]
+[node name="TextEdit" parent="Control" instance=ExtResource("3_j05fx")]
 layout_mode = 0
-offset_left = 25.0
-offset_top = 140.0
-offset_right = 605.0
-offset_bottom = 409.0
-placeholder_text = "Text for description "
+offset_left = 34.0
+offset_top = 134.0
+offset_right = 614.0
+offset_bottom = 403.0
+script = ExtResource("4_mcqyo")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
