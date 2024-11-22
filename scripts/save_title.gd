@@ -9,7 +9,6 @@ func _ready() -> void:
 func _text_submitted(submitted_text) -> void:
 	saved_text = submitted_text
 	save()
-	print(submitted_text)
 
 func save() -> String:
 	var save_String:String = saved_text

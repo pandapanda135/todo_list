@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ck58ceim2dhbu"]
+[gd_scene load_steps=7 format=3 uid="uid://ck58ceim2dhbu"]
 
 [ext_resource type="Script" path="res://scripts/save_system.gd" id="1_ucxae"]
 [ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_1krdl"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="3_4oxfu"]
 [ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_j05fx"]
-[ext_resource type="Script" path="res://scripts/save_string_handler.gd" id="4_mcqyo"]
+[ext_resource type="Script" path="res://scripts/description_save.gd" id="4_eiwa4"]
+[ext_resource type="Script" path="res://show_title.gd" id="6_5prt7"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -14,13 +15,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="." groups=["persist"]]
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("label_title", "label_description") groups=["persist"]]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ucxae")
 title_node = NodePath("LineEdit")
 description_node = NodePath("TextEdit")
+label_title = NodePath("../Label")
+label_description = NodePath("../RichTextLabel")
 
 [node name="LineEdit" parent="Control" instance=ExtResource("2_1krdl")]
 layout_mode = 0
@@ -35,7 +38,7 @@ offset_left = 34.0
 offset_top = 134.0
 offset_right = 614.0
 offset_bottom = 403.0
-script = ExtResource("4_mcqyo")
+script = ExtResource("4_eiwa4")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -52,6 +55,31 @@ offset_left = 782.0
 offset_top = 84.0
 offset_right = 1039.0
 offset_bottom = 115.0
+action_mode = 0
 text = "save"
 
+[node name="Button3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 782.0
+offset_top = 157.0
+offset_right = 1039.0
+offset_bottom = 188.0
+text = "load"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 729.0
+offset_top = 310.0
+offset_right = 1136.0
+offset_bottom = 356.0
+script = ExtResource("6_5prt7")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 488.0
+offset_right = 1122.0
+offset_bottom = 621.0
+
 [connection signal="pressed" from="Button2" to="Control" method="save_note"]
+[connection signal="pressed" from="Button3" to="Control" method="load_note"]

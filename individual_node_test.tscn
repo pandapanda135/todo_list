@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dg8lmyc0ukc1u"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -902.0
+offset_bottom = -534.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 47.0
+offset_bottom = 27.0
+text = "Test Text For Title"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 38.0
+offset_right = 240.0
+offset_bottom = 103.0
+text = "Test Text For Description"
