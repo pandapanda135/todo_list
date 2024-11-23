@@ -49,7 +49,7 @@ func save_note() -> void:
 
 	increment_save_path()
 
-#TODO: this currently parses save_path however as save_path looks for the next file it crashes the program so make it so the  user can decide the file and not base it off if save path
+#TODO: this currently parses save_path however as save_path looks for the next file it crashes the program so make it so the  user can decide the file and not base it off if save path (done now)
 func load_note(selected_id) -> void:
 	get_tree().get_root().print_tree()
 	selected_save_file_string = selected_id
