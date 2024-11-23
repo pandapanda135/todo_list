@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ck58ceim2dhbu"]
+[gd_scene load_steps=9 format=3 uid="uid://ck58ceim2dhbu"]
 
 [ext_resource type="Script" path="res://scripts/save_system.gd" id="1_ucxae"]
 [ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_1krdl"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_j05fx"]
 [ext_resource type="Script" path="res://scripts/description_save.gd" id="4_eiwa4"]
 [ext_resource type="Script" path="res://show_title.gd" id="6_5prt7"]
+[ext_resource type="Script" path="res://selected_load_game_test.gd" id="6_smboh"]
+[ext_resource type="Script" path="res://delete_save_test.gd" id="7_0wo3u"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -15,15 +17,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="." node_paths=PackedStringArray("label_title", "label_description") groups=["persist"]]
+[node name="Control" type="Control" parent="." groups=["persist"]]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ucxae")
 title_node = NodePath("LineEdit")
 description_node = NodePath("TextEdit")
-label_title = NodePath("../Label")
-label_description = NodePath("../RichTextLabel")
 
 [node name="LineEdit" parent="Control" instance=ExtResource("2_1krdl")]
 layout_mode = 0
@@ -66,6 +66,14 @@ offset_right = 1039.0
 offset_bottom = 188.0
 text = "load"
 
+[node name="LineEdit2" type="LineEdit" parent="."]
+offset_left = 786.0
+offset_top = 199.0
+offset_right = 1040.0
+offset_bottom = 230.0
+placeholder_text = "load save test"
+script = ExtResource("6_smboh")
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 729.0
@@ -80,6 +88,15 @@ offset_left = 704.0
 offset_top = 488.0
 offset_right = 1122.0
 offset_bottom = 621.0
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 561.0
+offset_right = 587.0
+offset_bottom = 592.0
+placeholder_text = "delete save test"
+script = ExtResource("7_0wo3u")
 
 [connection signal="pressed" from="Button2" to="Control" method="save_note"]
 [connection signal="pressed" from="Button3" to="Control" method="load_note"]
