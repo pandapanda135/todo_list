@@ -22,12 +22,27 @@ var selected_save_file:String = "user://note_%s.json" % selected_save_file_strin
 # 	else:
 # 		pass
 
+#this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
+func _ready() -> void:
+	var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
+	var node_scene = node_packed_scene.instantiate()
+	var root = get_tree().get_root()
+	for i in "user//":
+		if FileAccess.file_exists("user://note_%s.json" % i):
+			print("user://note_%s.json" % i)
+			print("FileAccess work")
+			root.add_child.call_deferred(node_scene.json_file("user://note_%s.json" % i))
+		else:
+			print("FileAccess null")
+			continue
+
+
 #TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made
 
 func save_note() -> void:
 	var save_file := FileAccess.open(save_path, FileAccess.WRITE)
-	var save_nodes := get_tree().get_nodes_in_group("persist")
-	for node:Node in save_nodes:
+	var save_nodes_persist := get_tree().get_nodes_in_group("persist")
+	for node:Node in save_nodes_persist:
 		# Check the node is an instanced scene so it can be instanced again during load.
 		if node.scene_file_path.is_empty():
 			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
@@ -51,7 +66,6 @@ func save_note() -> void:
 
 #TODO: this currently parses save_path however as save_path looks for the next file it crashes the program so make it so the  user can decide the file and not base it off if save path (done now)
 func load_note(selected_id) -> void:
-	get_tree().get_root().print_tree()
 	selected_save_file_string = selected_id
 	selected_save_file = "user://note_%s.json" % selected_save_file_string
 	print(selected_save_file) 
@@ -90,3 +104,34 @@ func increment_save_path() -> void:
 	print("save ",save_amount)
 	print("save amount string ",save_amount_string)
 	print("path ",save_path)
+
+var save_amount_nodes:int = 0
+var save_amount_string_nodes:String = str(save_amount)
+var save_path_nodes:String = "user://node_%s.json" % save_amount_string
+
+func save_nodes() -> void:
+	var save_file := FileAccess.open(save_path, FileAccess.WRITE)
+	var save_persist_nodes := get_tree().get_nodes_in_group("persist_nodes")
+	for node:Node in save_persist_nodes:
+		# Check the node is an instanced scene so it can be instanced again during load.
+		if node.scene_file_path.is_empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
+
+		# Check the node has a save function.
+		if !node.has_method("save"):
+			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			continue
+
+		# Call the node's save function. This is a string as with the scope of the project we should only store text
+		var node_data:Node = node.call("save")
+
+		# JSON provides a static method to serialized JSON string.
+		var json_string:String = JSON.stringify(node_data)
+
+		# Store the save dictionary as a new line in the save file.
+		save_file.store_line(json_string)
+
+
+func load_node() -> void:
+	pass
