@@ -23,19 +23,40 @@ var selected_save_file:String = "user://note_%s.json" % selected_save_file_strin
 # 		pass
 
 #this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
+#make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this 
+#that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
 func _ready() -> void:
+	#this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above)
+	var dir = DirAccess.open("user://")
+	var file_name_array:Array[String]
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				print("Found directory: " + file_name)
+			else:
+				file_name_array.append(file_name)
+				print("Found file: " + file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+
 	var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
 	var node_scene = node_packed_scene.instantiate()
 	var root = get_tree().get_root()
-	for i in "user//":
-		if FileAccess.file_exists("user://note_%s.json" % i):
-			print("user://note_%s.json" % i)
+	var run:int = 0
+	for i in file_name_array.size():
+		node_scene.json_file = "user://note_%s.json" % run
+		node_scene.name = "node_note: %s" % run
+		if FileAccess.file_exists("user://note_%s.json" % run):
+			print("user://note_%s.json" % run)
+			root.add_child.call_deferred(node_scene)
 			print("FileAccess work")
-			root.add_child.call_deferred(node_scene.json_file("user://note_%s.json" % i))
 		else:
 			print("FileAccess null")
-			continue
-
+		run += 1
+		print("node scene name ",node_scene.name)
 
 #TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made
 
@@ -113,7 +134,7 @@ func save_nodes() -> void:
 	var save_file := FileAccess.open(save_path, FileAccess.WRITE)
 	var save_persist_nodes := get_tree().get_nodes_in_group("persist_nodes")
 	for node:Node in save_persist_nodes:
-		# Check the node is an instanced scene so it can be instanced again during load.
+		# Check the node is an instanced cene so it can be instanced again during load.
 		if node.scene_file_path.is_empty():
 			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
 			continue
@@ -129,7 +150,7 @@ func save_nodes() -> void:
 		# JSON provides a static method to serialized JSON string.
 		var json_string:String = JSON.stringify(node_data)
 
-		# Store the save dictionary as a new line in the save file.
+		# Store the save dictionary as a new line in the save file.s
 		save_file.store_line(json_string)
 
 

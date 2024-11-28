@@ -22,8 +22,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ucxae")
-title_node = NodePath("LineEdit")
-description_node = NodePath("TextEdit")
 
 [node name="LineEdit" parent="Control" instance=ExtResource("2_1krdl")]
 layout_mode = 0
