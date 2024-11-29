@@ -9,6 +9,8 @@ extends Node
 @onready var label_title: Label = get_parent().get_node("/root/Control/Label")
 @onready var label_description: RichTextLabel = get_parent().get_node("/root/Control/RichTextLabel")
 
+@onready var save_path_variables:String = "user://variables.json"
+
 var save_amount:int = 0
 var save_amount_string:String = str(save_amount)
 var save_path:String = "user://note_%s.json" % save_amount_string
@@ -26,6 +28,11 @@ var selected_save_file:String = "user://note_%s.json" % selected_save_file_strin
 #make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this 
 # that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
 func _ready() -> void:
+	if FileAccess.file_exists(save_path_variables):
+		load_variables()
+	else:
+		pass
+
 	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above)
 	var dir = DirAccess.open("user://")
 	var file_name_array:Array[String]
@@ -41,20 +48,20 @@ func _ready() -> void:
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
+#TODO: fix error relating to issues with adding nodes to root may be due to issues with of new scene name
 
 	var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
-	var node_scene = node_packed_scene.instantiate()
-	var root = get_tree().get_root()
+	var node_scene:Node = node_packed_scene.instantiate()
+	var root:Node = get_tree().get_root()
 	var run:int = 0
-	for i in file_name_array.size():
+	for i in save_amount:
 		node_scene.json_file = "user://note_%s.json" % run
-		node_scene.name = "node_note: %s" % run
+		node_scene.name = "node_note:%s" % run
 		if FileAccess.file_exists("user://note_%s.json" % run):
-			print("user://note_%s.json" % run)
 			root.add_child.call_deferred(node_scene)
-			print("FileAccess work")
+			print("user://note_%s.json exists" % run)
 		else:
-			print("FileAccess null")
+			print("user://note_%s.json doesnt exist" % run)
 		run += 1
 		print("node scene name ",node_scene.name)
 
@@ -157,8 +164,6 @@ func save_nodes() -> void:
 func load_node() -> void:
 	pass
 
-var save_path_variables:String = "user://variables.json"
-
 func save_variables() -> void:
 	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
 	var save_nodes_persist := get_tree().get_nodes_in_group("persist_config")
@@ -187,7 +192,6 @@ func load_variables() -> void:
 	print(save_int)
 
 	save_amount = save_int
-
 
 func save() -> int:
 	var save_int:int = save_amount
