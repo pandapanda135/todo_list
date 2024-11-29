@@ -24,9 +24,9 @@ var selected_save_file:String = "user://note_%s.json" % selected_save_file_strin
 
 #this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
 #make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this 
-#that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
+# that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
 func _ready() -> void:
-	#this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above)
+	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above)
 	var dir = DirAccess.open("user://")
 	var file_name_array:Array[String]
 	if dir:
@@ -156,3 +156,40 @@ func save_nodes() -> void:
 
 func load_node() -> void:
 	pass
+
+var save_path_variables:String = "user://variables.json"
+
+func save_variables() -> void:
+	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
+	var save_nodes_persist := get_tree().get_nodes_in_group("persist_config")
+	for node:Node in save_nodes_persist:
+
+		if node.scene_file_path.is_empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
+
+		if !node.has_method("save"):
+			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			continue
+
+		var node_data:int = node.call("save")
+
+		var json_string:String = JSON.stringify(node_data)
+
+		save_file.store_line(json_string)
+
+func load_variables() -> void: 
+	var file := FileAccess.open(save_path_variables, FileAccess.READ) 
+	var json := JSON.new()
+	json.parse(file.get_line())
+	var save_int := json.get_data() as int
+
+	print(save_int)
+
+	save_amount = save_int
+
+
+func save() -> int:
+	var save_int:int = save_amount
+	print(save_int)	
+	return save_int

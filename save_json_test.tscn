@@ -1,10 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ck58ceim2dhbu"]
+[gd_scene load_steps=6 format=3 uid="uid://ck58ceim2dhbu"]
 
-[ext_resource type="Script" path="res://scripts/save_system.gd" id="1_ucxae"]
-[ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_1krdl"]
+[ext_resource type="PackedScene" uid="uid://bux54jaws0j36" path="res://savesystem.tscn" id="1_1ma76"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="3_4oxfu"]
-[ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_j05fx"]
-[ext_resource type="Script" path="res://scripts/description_save.gd" id="4_eiwa4"]
 [ext_resource type="Script" path="res://show_title.gd" id="6_5prt7"]
 [ext_resource type="Script" path="res://selected_load_game_test.gd" id="6_smboh"]
 [ext_resource type="Script" path="res://delete_save_test.gd" id="7_0wo3u"]
@@ -17,26 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="." groups=["persist"]]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_ucxae")
-
-[node name="LineEdit" parent="Control" instance=ExtResource("2_1krdl")]
-layout_mode = 0
-offset_left = 32.0
-offset_top = 46.0
-offset_right = 617.0
-offset_bottom = 96.0
-
-[node name="TextEdit" parent="Control" instance=ExtResource("3_j05fx")]
-layout_mode = 0
-offset_left = 34.0
-offset_top = 134.0
-offset_right = 614.0
-offset_bottom = 403.0
-script = ExtResource("4_eiwa4")
+[node name="Control" parent="." instance=ExtResource("1_1ma76")]
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -97,5 +75,14 @@ offset_bottom = 592.0
 placeholder_text = "delete save test"
 script = ExtResource("7_0wo3u")
 
+[node name="Button4" type="Button" parent="."]
+layout_mode = 0
+offset_left = 794.0
+offset_top = 244.0
+offset_right = 802.0
+offset_bottom = 252.0
+text = "load config"
+
 [connection signal="pressed" from="Button2" to="Control" method="save_note"]
-[connection signal="pressed" from="Button3" to="Control" method="load_note"]
+[connection signal="pressed" from="Button3" to="Control" method="save_variables"]
+[connection signal="pressed" from="Button4" to="Control" method="load_variables"]

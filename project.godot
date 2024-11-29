@@ -22,6 +22,7 @@ SaveSystem="*res://scripts/save_system.gd"
 
 persist=""
 persist_nodes="used for saving the nodes that display notes"
+persist_config=""
 
 [rendering]
 
