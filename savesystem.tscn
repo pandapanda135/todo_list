@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bux54jaws0j36"]
+
+[ext_resource type="Script" path="res://scripts/save_system.gd" id="1_el0jm"]
+[ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_5glt4"]
+[ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_wk161"]
+[ext_resource type="Script" path="res://scripts/description_save.gd" id="4_kjpw2"]
+
+[node name="Control" type="Control" groups=["persist_config"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_el0jm")
+title_node = NodePath("LineEdit")
+description_node = NodePath("TextEdit")
+
+[node name="LineEdit" parent="." instance=ExtResource("2_5glt4")]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 46.0
+offset_right = 617.0
+offset_bottom = 96.0
+
+[node name="TextEdit" parent="." instance=ExtResource("3_wk161")]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 134.0
+offset_right = 614.0
+offset_bottom = 403.0
+script = ExtResource("4_kjpw2")
