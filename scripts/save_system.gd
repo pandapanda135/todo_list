@@ -2,6 +2,8 @@ extends Node
 #@onready var shop_manager: GridContainer = $"../GridContainer"
 
 #may get removed as could cause issues later as the way to add data to var is not made yet
+# this also causes issues with making nodes as it makes two of the same node as it happens on the singleton and the scene node should probably remove this and replace it with hard coded path
+# temporarily until the proper implementation is added when I actually make the ui (never)
 @export var title_node: NodePath
 @export var description_node: NodePath
 
@@ -54,17 +56,19 @@ func _ready() -> void:
 
 #TODO: fix error relating to issues with adding nodes to root may be due to issues with of new scene name
 
-	var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
-	var node_scene:Node = node_packed_scene.instantiate()
+	# var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
+	# var node_scene:Node = node_packed_scene.instantiate()
 	var root:Node = get_tree().get_root()
 	var run:int = 0
 	if save_amount != 0 and len(file_name_array) != 0: #ugly disgusting if statment but theres too many potential edge cases with these files so I guess it works
 		for i in save_amount:
-			node_scene.json_file = "user://note_%s.json" % run
-			node_scene.name = "node_note:%s" % run
+			var node_scene:Node = preload("res://individual_node_test.tscn").instantiate()
 			if FileAccess.file_exists("user://note_%s.json" % run):
 				root.add_child.call_deferred(node_scene)
+				node_scene.json_file = "user://note_%s.json" % run
+				node_scene.name = "node_note:%s" % run
 				print("user://note_%s.json exists" % run)
+				print("node_scene name: " ,node_scene)
 			else:
 				print("user://note_%s.json doesnt exist" % run)
 			run += 1
@@ -76,7 +80,7 @@ func _ready() -> void:
 		check_save_amount_correct = false
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 	elif len(file_name_array) - 1 > save_amount:
-		print("issues with amount o - 1f saved files")
+		print("issues with amount len(file_name_array) - 1")
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 	else:
 		printerr("issues with if in _ready")
