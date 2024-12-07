@@ -1,11 +1,4 @@
 extends Node
-#@onready var shop_manager: GridContainer = $"../GridContainer"
-
-#may get removed as could cause issues later as the way to add data to var is not made yet
-# this also causes issues with making nodes as it makes two of the same node as it happens on the singleton and the scene node should probably remove this and replace it with hard coded path
-# temporarily until the proper implementation is added when I actually make the ui (never)
-@export var title_node: NodePath
-@export var description_node: NodePath
 
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
 @onready var label_title: Label = get_parent().get_node("/root/Control/Label")
@@ -21,12 +14,6 @@ var selected_save_file_string:String = "0"
 var selected_save_file:String = "user://note_%s.json" % selected_save_file_string
 
 var check_save_amount_correct:bool = true
-
-# func _ready() -> void:
-# 	if FileAccess.file_exists(save_path):
-# 		load_note()
-# 	else:
-# 		pass
 
 #this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
 #make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this 
@@ -44,7 +31,7 @@ func _ready() -> void:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			if dir.current_is_dir():
+			if dir.current_is_dir(): #remove this eventually as we dont need dir we only need files
 				print("Found directory: " + file_name)
 			else:
 				file_name_array.append(file_name)
@@ -54,10 +41,6 @@ func _ready() -> void:
 	else:
 		print("An error occurred when trying to access the path.")
 
-#TODO: fix error relating to issues with adding nodes to root may be due to issues with of new scene name
-
-	# var node_packed_scene:PackedScene = preload("res://individual_node_test.tscn")
-	# var node_scene:Node = node_packed_scene.instantiate()
 	var root:Node = get_tree().get_root()
 	var run:int = 0
 	if save_amount != 0 and len(file_name_array) != 0: #ugly disgusting if statment but theres too many potential edge cases with these files so I guess it works
@@ -87,7 +70,7 @@ func _ready() -> void:
 		check_save_amount_correct = false
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 
-#TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made
+#TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made make this its own function so it can be reused in _ready
 
 func save_note() -> void:
 	print("save_amount: ",save_path)
@@ -119,7 +102,6 @@ func save_note() -> void:
 	else:
 		print("check_save_amount_correct is set to false")
 
-#TODO: this currently parses save_path however as save_path looks for the next file it crashes the program so make it so the  user can decide the file and not base it off if save path (done now)
 func load_note(selected_id) -> void:
 	selected_save_file_string = selected_id
 	selected_save_file = "user://note_%s.json" % selected_save_file_string

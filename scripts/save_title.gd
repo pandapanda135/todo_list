@@ -12,5 +12,5 @@ func _text_submitted(submitted_text) -> void:
 
 func save() -> String:
 	var save_String:String = saved_text
-	print(save_String)	
+	print(save_String)
 	return save_String
