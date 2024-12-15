@@ -1,8 +1,8 @@
 extends Node
 
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
-@onready var label_title: Label = get_parent().get_node("/root/Control/Label")
-@onready var label_description: RichTextLabel = get_parent().get_node("/root/Control/RichTextLabel")
+@onready var label_title_node: Label = get_parent().get_node("/root/Control/Label")
+@onready var label_description_node: RichTextLabel = get_parent().get_node("/root/Control/RichTextLabel")
 
 @onready var save_path_variables:String = "user://variables.json"
 
@@ -41,21 +41,12 @@ func _ready() -> void:
 	else:
 		print("An error occurred when trying to access the path.")
 
-	var root:Node = get_tree().get_root()
-	var run:int = 0
 	if save_amount != 0 and len(file_name_array) != 0: #ugly disgusting if statment but theres too many potential edge cases with these files so I guess it works
 		for i in save_amount:
-			var node_scene:Node = preload("res://individual_node_test.tscn").instantiate()
-			if FileAccess.file_exists("user://note_%s.json" % run):
-				root.add_child.call_deferred(node_scene)
-				node_scene.json_file = "user://note_%s.json" % run
-				node_scene.name = "node_note:%s" % run
-				print("user://note_%s.json exists" % run)
-				print("node_scene name: " ,node_scene)
+			if FileAccess.file_exists("user://note_%s.json" % i):
+				add_and_change_made_nodes(i)
 			else:
-				print("user://note_%s.json doesnt exist" % run)
-			run += 1
-			print("node scene name ",node_scene.name)
+				print("user://note_%s.json doesnt exist" % i)
 	elif save_amount == 0 and len(file_name_array) - 1 == 0: # this is here so on first boot there shouldnt be any warnings
 		print("first boot?")
 	elif save_amount == 0 and len(file_name_array) - 1 > 0:
@@ -71,6 +62,9 @@ func _ready() -> void:
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 
 #TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made make this its own function so it can be reused in _ready
+#what I think I was trying to say here was make the adding and changing of the nodes that show the save file text to their own function so it can be reused
+
+#TODO: save button doesnt work anymore as it cant connect to save_note function
 
 func save_note() -> void:
 	print("save_amount: ",save_path)
@@ -98,15 +92,16 @@ func save_note() -> void:
 			# Store the save dictionary as a new line in the save file.
 			save_file.store_line(json_string)
 
+		add_and_change_made_nodes(save_amount)
 		increment_save_path()
 	else:
 		print("check_save_amount_correct is set to false")
 
-func load_note(selected_id) -> void:
-	selected_save_file_string = selected_id
-	selected_save_file = "user://note_%s.json" % selected_save_file_string
+func load_note(save_file,label_title,label_description) -> void:
+	# selected_save_file_string = selected_id
+	# selected_save_file = "user://note_%s.json" % selected_save_file_string
 	print(selected_save_file)
-	var file := FileAccess.open(selected_save_file, FileAccess.READ)
+	var file := FileAccess.open(save_file, FileAccess.READ)
 	var json := JSON.new()
 	var json_line_2 := JSON.new()
 	json.parse(file.get_line())
@@ -123,6 +118,18 @@ func load_note(selected_id) -> void:
 	else:
 		label_title.text = save_String
 		label_description.text = save_String_2
+
+func add_and_change_made_nodes(save_number) -> void:
+	var root:Node = get_tree().get_root()
+	var node_scene:Node = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
+	var run:int = save_number
+	var first_child = node_scene.get_child(0)
+	var second_child = node_scene.get_child(1)
+
+	root.add_child.call_deferred(node_scene)
+	node_scene.json_file = "user://note_%s.json" % run
+	node_scene.name = "node_note:%s" % run
+	load_note(node_scene.json_file,first_child,second_child)
 
 func delete_selected_file(save_string) -> void:
 	selected_save_file_string = save_string

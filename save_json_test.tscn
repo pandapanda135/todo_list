@@ -15,6 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Control" parent="." instance=ExtResource("1_1ma76")]
+script = null
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -83,6 +84,5 @@ offset_right = 802.0
 offset_bottom = 252.0
 text = "load config"
 
-[connection signal="pressed" from="Button2" to="Control" method="save_note"]
 [connection signal="pressed" from="Button3" to="Control" method="save_variables"]
 [connection signal="pressed" from="Button4" to="Control" method="load_variables"]

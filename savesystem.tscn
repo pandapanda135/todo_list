@@ -11,8 +11,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_el0jm")
-title_node = NodePath("LineEdit")
-description_node = NodePath("TextEdit")
 
 [node name="LineEdit" parent="." instance=ExtResource("2_5glt4")]
 layout_mode = 0
@@ -28,3 +26,13 @@ offset_top = 134.0
 offset_right = 614.0
 offset_bottom = 403.0
 script = ExtResource("4_kjpw2")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 670.0
+offset_top = 26.0
+offset_right = 754.0
+offset_bottom = 84.0
+text = "save"
+
+[connection signal="pressed" from="Button" to="." method="save_note"]

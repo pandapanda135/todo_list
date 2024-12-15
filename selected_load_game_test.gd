@@ -8,4 +8,4 @@ func _ready() -> void:
 
 func _text_submitted(added_id) -> void:
 	submitted_id = added_id
-	SaveSystem.load_note(submitted_id)
+	#SaveSystem.load_note(submitted_id) #TODO: fix this so it works with new args ( or just remove this file as its not really needed anymore)
