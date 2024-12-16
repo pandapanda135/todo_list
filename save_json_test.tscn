@@ -86,3 +86,5 @@ text = "load config"
 
 [connection signal="pressed" from="Button3" to="Control" method="save_variables"]
 [connection signal="pressed" from="Button4" to="Control" method="load_variables"]
+
+[editable path="Control"]

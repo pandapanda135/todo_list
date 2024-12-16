@@ -92,15 +92,16 @@ func save_note() -> void:
 			# Store the save dictionary as a new line in the save file.
 			save_file.store_line(json_string)
 
-		add_and_change_made_nodes(save_amount)
+		#add_and_change_made_nodes(save_amount)
 		increment_save_path()
+		print("done")
 	else:
 		print("check_save_amount_correct is set to false")
 
-func load_note(save_file,label_title,label_description) -> void:
+func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
 	# selected_save_file_string = selected_id
 	# selected_save_file = "user://note_%s.json" % selected_save_file_string
-	print(selected_save_file)
+	print("save_file",save_file)
 	var file := FileAccess.open(save_file, FileAccess.READ)
 	var json := JSON.new()
 	var json_line_2 := JSON.new()
@@ -119,16 +120,15 @@ func load_note(save_file,label_title,label_description) -> void:
 		label_title.text = save_String
 		label_description.text = save_String_2
 
-func add_and_change_made_nodes(save_number) -> void:
+func add_and_change_made_nodes(save_number:int) -> void:
 	var root:Node = get_tree().get_root()
 	var node_scene:Node = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
-	var run:int = save_number
-	var first_child = node_scene.get_child(0)
-	var second_child = node_scene.get_child(1)
+	var first_child:Node = node_scene.get_child(0)
+	var second_child:Node = node_scene.get_child(1)
 
 	root.add_child.call_deferred(node_scene)
-	node_scene.json_file = "user://note_%s.json" % run
-	node_scene.name = "node_note:%s" % run
+	node_scene.json_file = "user://note_%s.json" % save_number
+	node_scene.name = "node_note:%s" % save_number
 	load_note(node_scene.json_file,first_child,second_child)
 
 func delete_selected_file(save_string) -> void:
