@@ -92,7 +92,7 @@ func save_note() -> void:
 			# Store the save dictionary as a new line in the save file.
 			save_file.store_line(json_string)
 
-		#add_and_change_made_nodes(save_amount)
+		#add_and_change_made_nodes(save_amount) cant have this here as I think the file doesnt save until after the function is finished so load_note cant read the lines it needs
 		increment_save_path()
 		print("done")
 	else:
