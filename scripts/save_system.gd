@@ -61,11 +61,6 @@ func _ready() -> void:
 		check_save_amount_correct = false
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 
-#TODO: make it so it makes a new scene from individual_node_test and set the labels in it to what was just made make this its own function so it can be reused in _ready
-#what I think I was trying to say here was make the adding and changing of the nodes that show the save file text to their own function so it can be reused
-
-#TODO: save button doesnt work anymore as it cant connect to save_note function
-
 func save_note() -> void:
 	print("save_amount: ",save_path)
 	correct_save_path()
@@ -154,36 +149,9 @@ var save_amount_nodes:int = 0
 var save_amount_string_nodes:String = str(save_amount)
 var save_path_nodes:String = "user://node_%s.json" % save_amount_string
 
-func save_nodes() -> void:
-	var save_file := FileAccess.open(save_path, FileAccess.WRITE)
-	var save_persist_nodes := get_tree().get_nodes_in_group("persist_nodes")
-	for node:Node in save_persist_nodes:
-		# Check the node is an instanced cene so it can be instanced again during load.
-		if node.scene_file_path.is_empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-			continue
-
-		# Check the node has a save function.
-		if !node.has_method("save"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
-			continue
-
-		# Call the node's save function. This is a string as with the scope of the project we should only store text
-		var node_data:Node = node.call("save")
-
-		# JSON provides a static method to serialized JSON string.
-		var json_string:String = JSON.stringify(node_data)
-
-		# Store the save dictionary as a new line in the save file.s
-		save_file.store_line(json_string)
-
-
-func load_node() -> void:
-	pass
-
-func save_variables() -> void:
-	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
-	var save_nodes_persist := get_tree().get_nodes_in_group("persist_config")
+func save_system_reuseable_base(file_path:String,group_name:String) -> void:
+	var save_file := FileAccess.open(file_path, FileAccess.WRITE)
+	var save_nodes_persist := get_tree().get_nodes_in_group(group_name)
 	for node:Node in save_nodes_persist:
 
 		if node.scene_file_path.is_empty():
@@ -199,6 +167,16 @@ func save_variables() -> void:
 		var json_string:String = JSON.stringify(node_data)
 
 		save_file.store_line(json_string)
+
+func save_nodes() -> void:
+	save_system_reuseable_base(save_path,"persist_nodes")
+
+#this is probably need to be used when more ui/ux aspects are implemented
+func load_node() -> void:
+	pass
+
+func save_variables() -> void:
+	save_system_reuseable_base(save_path_variables,"persist_config")
 
 func load_variables() -> void:
 	var file := FileAccess.open(save_path_variables, FileAccess.READ)

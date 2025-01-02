@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bux54jaws0j36"]
+[gd_scene load_steps=6 format=3 uid="uid://bux54jaws0j36"]
 
 [ext_resource type="Script" path="res://scripts/save_system.gd" id="1_el0jm"]
 [ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_5glt4"]
 [ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_wk161"]
 [ext_resource type="Script" path="res://scripts/description_save.gd" id="4_kjpw2"]
+[ext_resource type="Script" path="res://save_button_signal.gd" id="5_lbckc"]
 
 [node name="Control" type="Control" groups=["persist_config"]]
 layout_mode = 3
@@ -27,12 +28,14 @@ offset_right = 614.0
 offset_bottom = 403.0
 script = ExtResource("4_kjpw2")
 
-[node name="Button" type="Button" parent="."]
+[node name="SaveButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 670.0
 offset_top = 26.0
 offset_right = 754.0
 offset_bottom = 84.0
+rotation = -0.00191983
 text = "save"
+script = ExtResource("5_lbckc")
 
-[connection signal="pressed" from="Button" to="." method="save_note"]
+[connection signal="pressed" from="SaveButton" to="." method="save_note"]

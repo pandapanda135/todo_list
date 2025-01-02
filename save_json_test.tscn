@@ -13,8 +13,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = -0.00456228
 
-[node name="Control" parent="." instance=ExtResource("1_1ma76")]
+[node name="Save_system" parent="." instance=ExtResource("1_1ma76")]
 script = null
 
 [node name="Button" type="Button" parent="."]
@@ -84,7 +85,7 @@ offset_right = 802.0
 offset_bottom = 252.0
 text = "load config"
 
-[connection signal="pressed" from="Button3" to="Control" method="save_variables"]
-[connection signal="pressed" from="Button4" to="Control" method="load_variables"]
+[connection signal="pressed" from="Button3" to="Save_system" method="save_variables"]
+[connection signal="pressed" from="Button4" to="Save_system" method="load_variables"]
 
-[editable path="Control"]
+[editable path="Save_system"]
