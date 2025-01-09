@@ -7,10 +7,12 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -902.0
-offset_bottom = -534.0
+offset_right = -940.0
+offset_bottom = -557.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_gbth7")
 
 [node name="Label" type="Label" parent="."]
@@ -21,10 +23,52 @@ offset_right = 47.0
 offset_bottom = 27.0
 text = "Test Text For Title"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="DescriptionLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 11.0
+offset_left = 7.0
 offset_top = 38.0
-offset_right = 240.0
-offset_bottom = 103.0
-text = "Test Text For Description"
+offset_right = 205.0
+offset_bottom = 87.0
+text = "Test Text For Description
+this is the second line and wow look at those ellipsis"
+vertical_alignment = 3
+text_overrun_behavior = 3
+
+[node name="ArrowHandler" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UpArrow" type="Button" parent="ArrowHandler"]
+layout_mode = 0
+offset_left = 72.0
+offset_right = 89.0
+offset_bottom = 31.0
+mouse_filter = 1
+text = "^"
+
+[node name="LeftArrow" type="Button" parent="ArrowHandler"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 18.0
+offset_bottom = 71.0
+mouse_filter = 1
+text = "<"
+
+[node name="RightArrow" type="Button" parent="ArrowHandler"]
+layout_mode = 0
+offset_left = 191.0
+offset_top = 38.0
+offset_right = 209.0
+offset_bottom = 69.0
+mouse_filter = 1
+text = ">"
+
+[node name="DownArrow" type="Button" parent="ArrowHandler"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 73.0
+offset_right = 89.0
+offset_bottom = 104.0
+mouse_filter = 1
+text = "v"

@@ -2,7 +2,7 @@ extends Node
 
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
 @onready var label_title_node: Label = get_parent().get_node("/root/Control/Label")
-@onready var label_description_node: RichTextLabel = get_parent().get_node("/root/Control/RichTextLabel")
+@onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
 
 @onready var save_path_variables:String = "user://variables.json"
 
@@ -117,7 +117,7 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 
 func add_and_change_made_nodes(save_number:int) -> void:
 	var root:Node = get_tree().get_root()
-	var node_scene:Node = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
+	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
 	var first_child:Node = node_scene.get_child(0)
 	var second_child:Node = node_scene.get_child(1)
 
@@ -126,7 +126,7 @@ func add_and_change_made_nodes(save_number:int) -> void:
 	node_scene.name = "node_note:%s" % save_number
 	load_note(node_scene.json_file,first_child,second_child)
 
-func delete_selected_file(save_string) -> void:
+func delete_selected_file(save_string:String) -> void:
 	selected_save_file_string = save_string
 	selected_save_file = "user://note_%s.json" % selected_save_file_string
 
