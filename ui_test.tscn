@@ -23,6 +23,19 @@ layout_mode = 2
 [node name="Control2" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2
 
+[node name="Label" parent="Collection1/Control2" index="0"]
+text = "Test Text For Title
+second"
+
+[node name="Control3" parent="Collection1" instance=ExtResource("1_8cr15")]
+layout_mode = 2
+
+[node name="Label" parent="Collection1/Control3" index="0"]
+text = "Test Text For Title third"
+
+[node name="Control4" parent="Collection1" instance=ExtResource("1_8cr15")]
+layout_mode = 2
+
 [node name="Collection2" type="VFlowContainer" parent="."]
 layout_mode = 0
 offset_left = 444.0
@@ -33,6 +46,9 @@ offset_bottom = 648.0
 layout_mode = 2
 
 [node name="Control2" parent="Collection2" instance=ExtResource("1_8cr15")]
+layout_mode = 2
+
+[node name="Control3" parent="Collection2" instance=ExtResource("1_8cr15")]
 layout_mode = 2
 
 [node name="Collection3" type="VFlowContainer" parent="."]
@@ -46,3 +62,6 @@ layout_mode = 2
 
 [node name="Control2" parent="Collection3" instance=ExtResource("1_8cr15")]
 layout_mode = 2
+
+[editable path="Collection1/Control2"]
+[editable path="Collection1/Control3"]

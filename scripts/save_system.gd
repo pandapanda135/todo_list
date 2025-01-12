@@ -115,6 +115,7 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 		label_title.text = save_String
 		label_description.text = save_String_2
 
+# TODO: Change this to not spawn in root anymore (maybe send path to put as arg of function?)
 func add_and_change_made_nodes(save_number:int) -> void:
 	var root:Node = get_tree().get_root()
 	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore

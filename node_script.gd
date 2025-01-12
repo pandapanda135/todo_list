@@ -9,20 +9,12 @@ extends Control
 
 @export var json_file:String = ""
 
-#these are here to stop a warning because it was annoying
-var up_arrow_signal: int
-var left_arrow_singal: int
-var right_arrow_signal: int
-var down_arrow_signal: int
-
 func _ready():
-	up_arrow_signal = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
-	left_arrow_singal = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
-	right_arrow_signal = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
-	down_arrow_signal = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
-
-func slider_changed(value, node):
-	print_debug(value, ' ', node)
+	var _up_arrow_signal:int = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
+	var _left_arrow_singal:int = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
+	var _right_arrow_signal:int = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
+	var _down_arrow_signal:int = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
+	check_arrow_viablility()
 
 func check_node_position(clicked_node) -> void:
 	print("running move_node with",clicked_node)
@@ -37,27 +29,65 @@ func check_node_position(clicked_node) -> void:
 					print("asfgjfsgjfgsj")
 				Gui.collection_3:
 					print("FGDHFGSDHFGH")
+			move_node_vertical(false)
 		left_arrow:
-			move_match(self,Gui.collections_array[2],Gui.collections_array[0],Gui.collections_array[1])
+			move_match(Gui.collections_array[2],Gui.collections_array[0],Gui.collections_array[1])
 			print(left_arrow,"was used in signal")
 		right_arrow:
 			print(right_arrow,"was used in signal")
-			move_match(self,Gui.collections_array[1],Gui.collections_array[2],Gui.collections_array[0])
+			move_match(Gui.collections_array[1],Gui.collections_array[2],Gui.collections_array[0])
 		down_arrow:
+			move_node_vertical(true)
 			print(down_arrow,"was used in signal")
 		_:
 			print("match do nothing as in brokey")
 	print("PARENT OF NODE",self.get_parent())
 
-func move_match(first_function:Node,second_first:Node,second_second:Node,second_third:Node) -> void:
+func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 	match self.get_parent():
 		Gui.collection_1:
-			move_node(first_function,second_first)
+			move_node_horizontal(second_first)
 		Gui.collection_2:
-			move_node(first_function,second_second)
+			move_node_horizontal(second_second)
 		Gui.collection_3:
-			move_node(first_function,second_third)
+			move_node_horizontal(second_third)
 
-func move_node(node: Node, new_parent:Node) -> void:
-	node.get_parent().remove_child(node)
-	new_parent.add_child(node)
+#CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move?
+func move_node_horizontal(new_parent:Node) -> void:
+	self.reparent(new_parent)
+	check_arrow_viablility()
+
+func move_node_vertical(Down:bool) -> void:
+	var parent = get_parent()
+	var current_index:int = self.get_index()
+	if Down == true:
+		parent.move_child(self,current_index + 1)
+	else:
+		parent.move_child(self,current_index - 1)
+	check_arrow_viablility()
+
+#look if there is a node above or below current node if so then keep button enabled else set disabled
+func check_arrow_viablility() -> void:
+	var child_nodes:Array = get_parent().get_children()
+	# print("nfgs",child_nodes)
+	# print("FGIUHDGFSHIU",child_nodes[- 1])
+	if self in child_nodes:
+		var node_index:int = child_nodes.find(self)
+		var node_index_1:int = node_index + 1
+		# print(child_nodes[node_index - 1])
+		if child_nodes[node_index - 1] != child_nodes[-1]:
+			print("up not disabled")
+			up_arrow.disabled = false
+		else:
+			print("up disabled")
+			up_arrow.disabled = true
+
+		print(node_index + 1," this is the diff ",child_nodes.size())
+		if node_index_1 < child_nodes.size():
+			print("down not disabled")
+			down_arrow.disabled = false
+		else:
+			print("down disabled")
+			down_arrow.disabled = true
+	else:
+		print("real big issue if this is triggers")
