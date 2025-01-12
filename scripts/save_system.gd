@@ -122,7 +122,7 @@ func add_and_change_made_nodes(save_number:int) -> void:
 	var first_child:Node = node_scene.get_child(0)
 	var second_child:Node = node_scene.get_child(1)
 
-	root.add_child.call_deferred(node_scene)
+	# root.add_child.call_deferred(node_scene)
 	node_scene.json_file = "user://note_%s.json" % save_number
 	node_scene.name = "node_note:%s" % save_number
 	load_note(node_scene.json_file,first_child,second_child)

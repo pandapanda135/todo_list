@@ -54,12 +54,21 @@ func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 
 #CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move?
 func move_node_horizontal(new_parent:Node) -> void:
-	self.reparent(new_parent)
+	var current_index = self.get_index()
+	var new_children = new_parent.get_child_count()
+
+	if current_index > new_children:
+		self.reparent(new_parent)
+		new_parent.move_child(self,new_children + 1)
+	elif current_index <= new_children:
+		self.reparent(new_parent)
+		new_parent.move_child(self,current_index)
 	check_arrow_viablility()
 
 func move_node_vertical(Down:bool) -> void:
 	var parent = get_parent()
 	var current_index:int = self.get_index()
+
 	if Down == true:
 		parent.move_child(self,current_index + 1)
 	else:
@@ -71,6 +80,7 @@ func check_arrow_viablility() -> void:
 	var child_nodes:Array = get_parent().get_children()
 	# print("nfgs",child_nodes)
 	# print("FGIUHDGFSHIU",child_nodes[- 1])
+
 	if self in child_nodes:
 		var node_index:int = child_nodes.find(self)
 		var node_index_1:int = node_index + 1
@@ -89,5 +99,3 @@ func check_arrow_viablility() -> void:
 		else:
 			print("down disabled")
 			down_arrow.disabled = true
-	else:
-		print("real big issue if this is triggers")
