@@ -14,9 +14,10 @@ func _ready():
 	var _left_arrow_singal:int = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
 	var _right_arrow_signal:int = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
 	var _down_arrow_signal:int = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
-	check_arrow_viablility()
+	first_arrow_visibility_check()
 
 func check_node_position(clicked_node) -> void:
+	check_arrow_viablility()
 	print("running move_node with",clicked_node)
 	match clicked_node:
 		up_arrow:
@@ -52,7 +53,7 @@ func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 		Gui.collection_3:
 			move_node_horizontal(second_third)
 
-#CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move?
+#CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move? DONE KINDA
 func move_node_horizontal(new_parent:Node) -> void:
 	var current_index = self.get_index()
 	var new_children = new_parent.get_child_count()
@@ -72,26 +73,57 @@ func move_node_vertical(Down:bool) -> void:
 	if Down == true:
 		parent.move_child(self,current_index + 1)
 	else:
+		print("before move_child",get_parent().get_children())
 		parent.move_child(self,current_index - 1)
+		print("after move_child",get_parent().get_children())
 	check_arrow_viablility()
 
 #look if there is a node above or below current node if so then keep button enabled else set disabled
 func check_arrow_viablility() -> void:
 	var child_nodes:Array = get_parent().get_children()
-	# print("nfgs",child_nodes)
+	var node_index:int = child_nodes.find(self)
+	var max_index:int = self.get_parent().get_child_count()
+	print("nfgs",child_nodes)
 	# print("FGIUHDGFSHIU",child_nodes[- 1])
+
+	first_arrow_visibility_check()
+	#fixes issues to do with when the top note is moved down and the new top note is not correctly updated to show that
+	#double check because I am a horrible programmer
+	if child_nodes[0].up_arrow.disabled == true and node_index >= 0:
+		print("adfgoihgiofdg",child_nodes[1])
+		child_nodes[1].up_arrow.disabled = false
+	elif down_arrow.disabled == true and node_index < max_index:
+		# down_arrow.disabled = false
+		pass
+	else:
+		print("none on end if")
+
+	#seperate if because issues I cant be bothered to fix
+	if self == child_nodes[max_index - 2] and child_nodes[max_index - 1].down_arrow.disabled != true:
+		child_nodes[max_index - 1].down_arrow.disabled = true
+	else:
+		pass
+
+func first_arrow_visibility_check() -> void:
+	var child_nodes:Array = get_parent().get_children()
 
 	if self in child_nodes:
 		var node_index:int = child_nodes.find(self)
 		var node_index_1:int = node_index + 1
-		# print(child_nodes[node_index - 1])
+		var max_index:int = self.get_parent().get_child_count()
+		print("OIGJSODGIO",max_index)
+		# print("IHDFSKJIOh",child_nodes[max_index - 2])
+		#up check
 		if child_nodes[node_index - 1] != child_nodes[-1]:
 			print("up not disabled")
 			up_arrow.disabled = false
 		else:
 			print("up disabled")
 			up_arrow.disabled = true
+			# print(child_nodes[max_index - 2])
+			# child_nodes[0].up_arrow.disabled = false
 
+		#down check
 		print(node_index + 1," this is the diff ",child_nodes.size())
 		if node_index_1 < child_nodes.size():
 			print("down not disabled")
@@ -99,3 +131,9 @@ func check_arrow_viablility() -> void:
 		else:
 			print("down disabled")
 			down_arrow.disabled = true
+			print("asdo ",max_index)
+			print(child_nodes[max_index - 2])
+			print(child_nodes)
+			child_nodes[max_index - 2].down_arrow.disabled = false
+			print("I am after false",child_nodes[max_index - 2])
+			# down_arrow.disabled = true
