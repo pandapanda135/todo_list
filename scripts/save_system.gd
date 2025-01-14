@@ -4,6 +4,8 @@ extends Node
 @onready var label_title_node: LineEdit = get_parent().get_node("/root/Control/TitleLabel")
 @onready var label_description_node: TextEdit = get_parent().get_node("/root/Control/DescriptionLabel")
 
+@onready var control = get_parent().get_node("/root/Control")
+
 @onready var save_path_variables:String = "user://variables.json"
 
 var save_amount:int = 0
@@ -94,6 +96,7 @@ func save_note() -> void:
 	else:
 		print("check_save_amount_correct is set to false")
 
+#TODO: Make save_int do stuff for lodaing
 func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
 	# selected_save_file_string = selected_id
 	# selected_save_file = "user://note_%s.json" % selected_save_file_string
@@ -101,10 +104,13 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 	var file := FileAccess.open(save_file, FileAccess.READ)
 	var json := JSON.new()
 	var json_line_2 := JSON.new()
+	var json_line_3 := JSON.new()
 	json.parse(file.get_line())
 	json_line_2.parse(file.get_line())
+	json_line_3.parse(file.get_line())
 	var save_String := json.get_data() as String
 	var save_String_2 := json_line_2.get_data() as String
+	# var save_int := json_line_3.get_data() as int
 
 	print(save_String)
 	print(save_String_2)
@@ -116,17 +122,41 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 		label_title.text = save_String
 		label_description.text = save_String_2
 
+var value_int:int
 # TODO: Change this to not spawn in root anymore (maybe send path to put as arg of function?)
 func add_and_change_made_nodes(save_number:int) -> void:
-	var root:Node = get_tree().get_root()
+	load_container("user://note_%s.json" % save_number)
+	# var root:Node = get_tree().get_root() this will be kept incase
 	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
 	var first_child:Node = node_scene.get_child(0)
 	var second_child:Node = node_scene.get_child(1)
 
 	# root.add_child.call_deferred(node_scene)
+	#TODO: cant call collection as the place it is at is not declared yet maybe look at how onready earlier in this script is called to how to fix this
+	match value_int:
+		0:
+			Gui.collection_1.add_child.call_deferred(node_scene)
+		1:
+			Gui.collection_2.add_child.call_deferred(node_scene)
+		2:
+			Gui.collection_3.add_child.call_deferred(node_scene)
+		_:
+			print("BIG ISSUE WITH VALUE_INT ",value_int)
+
 	node_scene.json_file = "user://note_%s.json" % save_number
 	node_scene.name = "node_note:%s" % save_number
 	load_note(node_scene.json_file,first_child,second_child)
+
+#load container position from file
+func load_container(save_file:String) -> void:
+	var file := FileAccess.open(save_file, FileAccess.READ)
+	var json := JSON.new()
+	var save_int:int
+	for i in range(0,3):
+		json.parse(file.get_line())
+		save_int = json.get_data() as int
+	print("LOAD_CONTAINOR save_int ",save_int)
+	value_int = save_int
 
 func delete_selected_file(save_string:String) -> void:
 	selected_save_file_string = save_string

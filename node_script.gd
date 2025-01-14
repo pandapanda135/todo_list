@@ -8,6 +8,7 @@ extends Control
 @onready var left_arrow: Button = $ArrowHandler/LeftArrow
 
 @export var json_file:String = ""
+@export var current_position:int
 
 #declare the collection is will be in within the save file modfiy the save file code
 #to support this and also the function that adds the nodes to the scenes this can be done
@@ -15,10 +16,10 @@ extends Control
 #and moved which should be easier
 
 func _ready():
-	var _up_arrow_signal:int = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
-	var _left_arrow_singal:int = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
-	var _right_arrow_signal:int = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
-	var _down_arrow_signal:int = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
+	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
+	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
+	var _right_arrow_signal:bool = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
+	var _down_arrow_signal:bool = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
 	first_arrow_visibility_check()
 
 func check_node_position(clicked_node) -> void:

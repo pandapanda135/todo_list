@@ -7,8 +7,11 @@ func _ready() -> void:
 	self.text_changed.connect(_on_text_changed)
 
 func _on_text_changed() -> void:
-	saved_text = $".".text
-	save()
+	if self.text == "":
+		print("empty description")
+	else:
+		saved_text = self.text
+		save()
 
 func save() -> String:
 	var save_String_2:String = saved_text

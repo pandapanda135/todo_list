@@ -7,8 +7,11 @@ func _ready() -> void:
 	self.text_submitted.connect(_text_submitted)
 
 func _text_submitted(submitted_text) -> void:
-	saved_text = submitted_text
-	save()
+	if submitted_text == "":
+		print("empty description")
+	else:
+		saved_text = submitted_text
+		save()
 
 func save() -> String:
 	var save_String:String = saved_text

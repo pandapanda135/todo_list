@@ -17,7 +17,7 @@ func _process(delta):
 func initialize_variables(value_1,value_2,value_3) -> void:
 	collection_1 = value_1
 	collection_2 = value_2
-	collection_3	= value_3
+	collection_3 = value_3
 	collections_array = [collection_1,collection_2,collection_3]
 	print(collection_1)
 	print(collection_2)
