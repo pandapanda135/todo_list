@@ -1,8 +1,8 @@
 extends Node
 
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
-@onready var label_title_node: Label = get_parent().get_node("/root/Control/Label")
-@onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
+@onready var label_title_node: LineEdit = get_parent().get_node("/root/Control/TitleLabel")
+@onready var label_description_node: TextEdit = get_parent().get_node("/root/Control/DescriptionLabel")
 
 @onready var save_path_variables:String = "user://variables.json"
 
@@ -79,10 +79,11 @@ func save_note() -> void:
 				continue
 
 			# Call the node's save function. This is a string as with the scope of the project we should only store text
-			var node_data:String = node.call("save")
+			var node_data = node.call("save")
 
 			# JSON provides a static method to serialized JSON string.
 			var json_string:String = JSON.stringify(node_data)
+			print("THIS iS JSON_STRING",json_string)
 
 			# Store the save dictionary as a new line in the save file.
 			save_file.store_line(json_string)

@@ -9,6 +9,11 @@ extends Control
 
 @export var json_file:String = ""
 
+#declare the collection is will be in within the save file modfiy the save file code
+#to support this and also the function that adds the nodes to the scenes this can be done
+#by moving the code that spawn the code into the load_node function so it is being loaded
+#and moved which should be easier
+
 func _ready():
 	var _up_arrow_signal:int = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:int = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
