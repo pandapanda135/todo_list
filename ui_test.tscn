@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://4ohhu5aryk3p"]
+[gd_scene load_steps=6 format=3 uid="uid://4ohhu5aryk3p"]
 
 [ext_resource type="PackedScene" uid="uid://dg8lmyc0ukc1u" path="res://individual_node_test.tscn" id="1_8cr15"]
 [ext_resource type="Script" path="res://gui_main.gd" id="1_qvqwe"]
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://Modal.tscn" id="3_a3yvw"]
 [ext_resource type="Script" path="res://add_note_ui.gd" id="4_70acs"]
+[ext_resource type="Script" path="res://scripts/save_location.gd" id="5_tkmw1"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -83,6 +84,16 @@ offset_bottom = 647.0
 text = "Add Note
 "
 script = ExtResource("4_70acs")
+
+[node name="Button2" type="Button" parent="."]
+top_level = true
+layout_mode = 0
+offset_left = 918.0
+offset_top = 616.0
+offset_right = 1071.0
+offset_bottom = 647.0
+text = "open save location"
+script = ExtResource("5_tkmw1")
 
 [editable path="Collection1/Control"]
 [editable path="Collection1/Control2"]

@@ -15,6 +15,7 @@ extends Control
 #by moving the code that spawn the code into the load_node function so it is being loaded
 #and moved which should be easier
 
+#TODO: could fix the issue of inaccurate arrow viability with a signal sent everytime a node spawns
 func _ready():
 	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
@@ -23,7 +24,7 @@ func _ready():
 	first_arrow_visibility_check()
 
 func check_node_position(clicked_node) -> void:
-	check_arrow_viablility()
+	check_arrow_visibility()
 	print("running move_node with",clicked_node)
 	match clicked_node:
 		up_arrow:
@@ -70,7 +71,7 @@ func move_node_horizontal(new_parent:Node) -> void:
 	elif current_index <= new_children:
 		self.reparent(new_parent)
 		new_parent.move_child(self,current_index)
-	check_arrow_viablility()
+	check_arrow_visibility()
 
 func move_node_vertical(Down:bool) -> void:
 	var parent = get_parent()
@@ -79,24 +80,25 @@ func move_node_vertical(Down:bool) -> void:
 	if Down == true:
 		parent.move_child(self,current_index + 1)
 	else:
-		print("before move_child",get_parent().get_children())
+		# print("before move_child",get_parent().get_children())
 		parent.move_child(self,current_index - 1)
-		print("after move_child",get_parent().get_children())
-	check_arrow_viablility()
+		# print("after move_child",get_parent().get_children())
+	check_arrow_visibility()
 
+#TODO: when the node is made there is nothing beneath them so the down arrow will always be disabled until it moves
 #look if there is a node above or below current node if so then keep button enabled else set disabled
-func check_arrow_viablility() -> void:
+func check_arrow_visibility() -> void:
 	var child_nodes:Array = get_parent().get_children()
 	var node_index:int = child_nodes.find(self)
 	var max_index:int = self.get_parent().get_child_count()
-	print("nfgs",child_nodes)
+	# print("nfgs",child_nodes)
 	# print("FGIUHDGFSHIU",child_nodes[- 1])
 
 	first_arrow_visibility_check()
 	#fixes issues to do with when the top note is moved down and the new top note is not correctly updated to show that
 	#double check because I am a horrible programmer
 	if child_nodes[0].up_arrow.disabled == true and node_index >= 0:
-		print("adfgoihgiofdg",child_nodes[1])
+		# print("adfgoihgiofdg",child_nodes[1])
 		child_nodes[1].up_arrow.disabled = false
 	elif down_arrow.disabled == true and node_index < max_index:
 		# down_arrow.disabled = false
@@ -117,7 +119,7 @@ func first_arrow_visibility_check() -> void:
 		var node_index:int = child_nodes.find(self)
 		var node_index_1:int = node_index + 1
 		var max_index:int = self.get_parent().get_child_count()
-		print("OIGJSODGIO",max_index)
+		# print("OIGJSODGIO",max_index)
 		# print("IHDFSKJIOh",child_nodes[max_index - 2])
 		#up check
 		if child_nodes[node_index - 1] != child_nodes[-1]:
@@ -137,9 +139,9 @@ func first_arrow_visibility_check() -> void:
 		else:
 			print("down disabled")
 			down_arrow.disabled = true
-			print("asdo ",max_index)
-			print(child_nodes[max_index - 2])
-			print(child_nodes)
-			child_nodes[max_index - 2].down_arrow.disabled = false
+			# print("asdo ",max_index)
+			# print(child_nodes[max_index - 2])
+			# print(child_nodes)
+			# child_nodes[max_index - 2].down_arrow.disabled = false
 			print("I am after false",child_nodes[max_index - 2])
 			# down_arrow.disabled = true

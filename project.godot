@@ -16,8 +16,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SaveSystem="*res://scripts/save_system.gd"
 Gui="*res://scripts/gui_singleton.gd"
+SaveSystem="*res://scripts/save_system.gd"
 
 [global_group]
 

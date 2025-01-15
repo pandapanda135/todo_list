@@ -1,13 +1,13 @@
 extends Node
 
-@onready var collection_2:VFlowContainer
-@onready var collection_3:VFlowContainer
-@onready var collection_1:VFlowContainer
+@onready var collection_1:VFlowContainer = get_parent().get_node("/root/Control/Collection1")
+@onready var collection_2:VFlowContainer = get_parent().get_node("/root/Control/Collection2")
+@onready var collection_3:VFlowContainer = get_parent().get_node("/root/Control/Collection3")
 
 @onready var collections_array:Array[VFlowContainer]
 
 func _ready() -> void:
-	pass
+	print("collections1",collection_1)
 
 func _process(delta):
 	pass

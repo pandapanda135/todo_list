@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://bux54jaws0j36"]
+[gd_scene load_steps=6 format=3 uid="uid://bux54jaws0j36"]
 
-[ext_resource type="Script" path="res://scripts/save_system.gd" id="1_el0jm"]
 [ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_5glt4"]
 [ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_wk161"]
 [ext_resource type="Script" path="res://scripts/description_save.gd" id="4_kjpw2"]
@@ -12,7 +11,6 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_el0jm")
 
 [node name="TitleLabel" parent="." instance=ExtResource("2_5glt4")]
 layout_mode = 0

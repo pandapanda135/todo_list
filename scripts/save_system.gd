@@ -46,6 +46,7 @@ func _ready() -> void:
 	if save_amount != 0 and len(file_name_array) != 0: #ugly disgusting if statment but theres too many potential edge cases with these files so I guess it works
 		for i in save_amount:
 			if FileAccess.file_exists("user://note_%s.json" % i):
+				print("ABOUT TO RUN ADD_AND_CHANGE",i)
 				add_and_change_made_nodes(i)
 			else:
 				print("user://note_%s.json doesnt exist" % i)
