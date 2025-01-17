@@ -1,8 +1,8 @@
 extends Node
 
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
-@onready var label_title_node: LineEdit = get_parent().get_node("/root/Control/TitleLabel")
-@onready var label_description_node: TextEdit = get_parent().get_node("/root/Control/DescriptionLabel")
+@onready var label_title_node: Label = get_parent().get_node("/root/Control/TitleLabel")
+@onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
 
 @onready var control = get_parent().get_node("/root/Control")
 
@@ -127,8 +127,8 @@ var value_int:int
 # TODO: Change this to not spawn in root anymore (maybe send path to put as arg of function?)
 func add_and_change_made_nodes(save_number:int) -> void:
 	load_container("user://note_%s.json" % save_number)
-	# var root:Node = get_tree().get_root() this will be kept incase
-	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but idk how this works anymore
+	# var root:Node = get_tree().get_root()
+	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but it works at its probably going to stay this way
 	var first_child:Node = node_scene.get_child(0)
 	var second_child:Node = node_scene.get_child(1)
 
@@ -209,7 +209,13 @@ func load_node() -> void:
 	pass
 
 func save_variables() -> void:
-	save_system_reuseable_base(save_path_variables,"persist_config")
+	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
+
+	var node_data:int = save_amount
+
+	var json_string:String = JSON.stringify(node_data)
+
+	save_file.store_line(json_string)
 
 func load_variables() -> void:
 	var file := FileAccess.open(save_path_variables, FileAccess.READ)

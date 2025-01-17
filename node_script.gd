@@ -1,5 +1,7 @@
 extends Control
 
+signal node_made
+
 @onready var arrow_handler:Control = $ArrowHandler
 
 @onready var up_arrow: Button = $ArrowHandler/UpArrow
@@ -21,6 +23,8 @@ func _ready():
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
 	var _right_arrow_signal:bool = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
 	var _down_arrow_signal:bool = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
+	node_made.connect(_on_node_made)
+	node_made.emit.call_deferred()
 	first_arrow_visibility_check()
 
 func check_node_position(clicked_node) -> void:
@@ -60,10 +64,15 @@ func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 		Gui.collection_3:
 			move_node_horizontal(second_third)
 
+func _on_node_made() -> void:
+	print("SIGNAL")
+	first_arrow_visibility_check()
+
 #CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move? DONE KINDA
 func move_node_horizontal(new_parent:Node) -> void:
 	var current_index = self.get_index()
 	var new_children = new_parent.get_child_count()
+	var last_parent = self.get_parent()
 
 	if current_index > new_children:
 		self.reparent(new_parent)
@@ -71,7 +80,7 @@ func move_node_horizontal(new_parent:Node) -> void:
 	elif current_index <= new_children:
 		self.reparent(new_parent)
 		new_parent.move_child(self,current_index)
-	check_arrow_visibility()
+	check_arrow_visibility(last_parent)
 
 func move_node_vertical(Down:bool) -> void:
 	var parent = get_parent()
@@ -85,32 +94,52 @@ func move_node_vertical(Down:bool) -> void:
 		# print("after move_child",get_parent().get_children())
 	check_arrow_visibility()
 
-#TODO: when the node is made there is nothing beneath them so the down arrow will always be disabled until it moves
-#look if there is a node above or below current node if so then keep button enabled else set disabled
-func check_arrow_visibility() -> void:
-	var child_nodes:Array = get_parent().get_children()
+#TODO: when the node is made there is nothing beneath them so the down arrow will always be disabled until it moves (FIXED?)
+#look if there is a node above or belo current node if so then keep button enabled else set disabled
+#this breaks if nodes are invisible as they are still in the tree however they dont display so only the appropriate nodes get disabled
+#TODO: Fix that pressing down on top arrow doesnt work (should be fixed)
+#TODO: Fix that horizontal movement doesnt disable the node that is not being called however is still being moved (should be fixed)
+func check_arrow_visibility(last_parent:Node = null) -> void:
+	var child_nodes:Array[Node] = get_parent().get_children()
 	var node_index:int = child_nodes.find(self)
 	var max_index:int = self.get_parent().get_child_count()
 	# print("nfgs",child_nodes)
 	# print("FGIUHDGFSHIU",child_nodes[- 1])
 
+	print("last_parent",last_parent)
+	if last_parent != null:
+		disable_horizontal(last_parent)
+	else:
+		print("last_parent == null")
+
 	first_arrow_visibility_check()
 	#fixes issues to do with when the top note is moved down and the new top note is not correctly updated to show that
 	#double check because I am a horrible programmer
-	if child_nodes[0].up_arrow.disabled == true and node_index >= 0:
+	if child_nodes[0].up_arrow.disabled == true and node_index > 0:
 		# print("adfgoihgiofdg",child_nodes[1])
 		child_nodes[1].up_arrow.disabled = false
 	elif down_arrow.disabled == true and node_index < max_index:
-		# down_arrow.disabled = false
+		down_arrow.disabled = false
 		pass
 	else:
+		child_nodes[1].up_arrow.disabled = false
+		child_nodes[0].up_arrow.disabled = true
 		print("none on end if")
 
 	#seperate if because issues I cant be bothered to fix
 	if self == child_nodes[max_index - 2] and child_nodes[max_index - 1].down_arrow.disabled != true:
+		print("line 111 down arrow disabled")
 		child_nodes[max_index - 1].down_arrow.disabled = true
 	else:
 		pass
+
+	#down check so one from down when press down doesnt sets down_arrow back to false
+	if node_index + 1 < child_nodes.size():
+		pass #i dont think there are any issues relating to this so it pass
+	else:
+		print("down disabled")
+		child_nodes[max_index - 2].down_arrow.disabled = false
+		print(down_arrow," disabled line 143")
 
 func first_arrow_visibility_check() -> void:
 	var child_nodes:Array = get_parent().get_children()
@@ -118,7 +147,6 @@ func first_arrow_visibility_check() -> void:
 	if self in child_nodes:
 		var node_index:int = child_nodes.find(self)
 		var node_index_1:int = node_index + 1
-		var max_index:int = self.get_parent().get_child_count()
 		# print("OIGJSODGIO",max_index)
 		# print("IHDFSKJIOh",child_nodes[max_index - 2])
 		#up check
@@ -127,7 +155,7 @@ func first_arrow_visibility_check() -> void:
 			up_arrow.disabled = false
 		else:
 			print("up disabled")
-			up_arrow.disabled = true
+			up_arrow.disabled = true #good
 			# print(child_nodes[max_index - 2])
 			# child_nodes[0].up_arrow.disabled = false
 
@@ -138,10 +166,21 @@ func first_arrow_visibility_check() -> void:
 			down_arrow.disabled = false
 		else:
 			print("down disabled")
-			down_arrow.disabled = true
-			# print("asdo ",max_index)
-			# print(child_nodes[max_index - 2])
-			# print(child_nodes)
-			# child_nodes[max_index - 2].down_arrow.disabled = false
-			print("I am after false",child_nodes[max_index - 2])
-			# down_arrow.disabled = true
+			down_arrow.disabled = true #bad
+			print(down_arrow," disabled line 143")
+
+func disable_horizontal(last_parent) -> void:
+	var last_parent_children:Array[Node] = last_parent.get_children()
+	var last_parent_child_count:int = last_parent.get_child_count()
+
+	if last_parent_child_count == 0:
+		return
+
+	if last_parent_children[0].up_arrow.disabled == false:
+		print("FIRST IF DISABLE_HORIZONTAL")
+		last_parent_children[0].up_arrow.disabled = true
+	elif last_parent_children[last_parent_child_count - 1].down_arrow.disabled == false:
+		print("SECOND IF DISABLE_HORIZONTAL")
+		last_parent_children[last_parent_child_count - 1].down_arrow.disabled = true
+	else:
+		print("NONE DISABLED")

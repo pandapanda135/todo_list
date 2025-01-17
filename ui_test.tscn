@@ -23,22 +23,11 @@ offset_bottom = 648.0
 [node name="Control" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2
 
-[node name="Label" parent="Collection1/Control" index="0"]
-text = "Test Text For Title
-first"
-
 [node name="Control2" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2
 
-[node name="Label" parent="Collection1/Control2" index="0"]
-text = "Test Text For Title
-second"
-
 [node name="Control3" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2
-
-[node name="Label" parent="Collection1/Control3" index="0"]
-text = "Test Text For Title third"
 
 [node name="Control4" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2

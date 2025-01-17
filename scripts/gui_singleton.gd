@@ -8,11 +8,10 @@ extends Node
 
 func _ready() -> void:
 	print("collections1",collection_1)
+	print("collections2",collection_2)
+	print("collections3",collection_3)
 
-func _process(delta):
-	pass
-
-#this is so because it was easier than other meathods despite it being dumb
+#this is so because it was easier than other methods despite it being dumb
 #collections_array will be used to move them from collection to collection
 func initialize_variables(value_1,value_2,value_3) -> void:
 	collection_1 = value_1
