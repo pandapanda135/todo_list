@@ -15,6 +15,8 @@ var save_path:String = "user://note_%s.json" % save_amount_string
 var selected_save_file_string:String = "0"
 var selected_save_file:String = "user://note_%s.json" % selected_save_file_string
 
+var selected_json_file
+
 var check_save_amount_correct:bool = true
 
 #this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
@@ -124,7 +126,6 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 		label_description.text = save_String_2
 
 var value_int:int
-# TODO: Change this to not spawn in root anymore (maybe send path to put as arg of function?)
 func add_and_change_made_nodes(save_number:int) -> void:
 	load_container("user://note_%s.json" % save_number)
 	# var root:Node = get_tree().get_root()
@@ -133,7 +134,6 @@ func add_and_change_made_nodes(save_number:int) -> void:
 	var second_child:Node = node_scene.get_child(1)
 
 	# root.add_child.call_deferred(node_scene)
-	#TODO: cant call collection as the place it is at is not declared yet maybe look at how onready earlier in this script is called to how to fix this
 	match value_int:
 		0:
 			Gui.collection_1.add_child.call_deferred(node_scene)
@@ -232,7 +232,7 @@ func save() -> int:
 	print(save_int)
 	return save_int
 
-func correct_save_path():
+func correct_save_path() -> void:
 	if DirAccess.open(save_path_variables) != null: #checks if save_path_variables exits this is so it fixes and issue or something idk what this does tbh
 		print("correct_save_path first if")
 		save_amount += 1

@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://4ohhu5aryk3p"]
+[gd_scene load_steps=5 format=3 uid="uid://4ohhu5aryk3p"]
 
 [ext_resource type="PackedScene" uid="uid://dg8lmyc0ukc1u" path="res://individual_node_test.tscn" id="1_8cr15"]
-[ext_resource type="Script" path="res://gui_main.gd" id="1_qvqwe"]
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://Modal.tscn" id="3_a3yvw"]
 [ext_resource type="Script" path="res://add_note_ui.gd" id="4_70acs"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="5_tkmw1"]
@@ -13,12 +12,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_qvqwe")
 
 [node name="Collection1" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_right = 300.0
-offset_bottom = 648.0
+offset_right = 569.0
+offset_bottom = 1081.0
 
 [node name="Control" parent="Collection1" instance=ExtResource("1_8cr15")]
 layout_mode = 2
@@ -34,9 +32,9 @@ layout_mode = 2
 
 [node name="Collection2" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_left = 444.0
-offset_right = 744.0
-offset_bottom = 648.0
+offset_left = 603.0
+offset_right = 1127.0
+offset_bottom = 1084.0
 
 [node name="Control" parent="Collection2" instance=ExtResource("1_8cr15")]
 layout_mode = 2
@@ -49,9 +47,9 @@ layout_mode = 2
 
 [node name="Collection3" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_left = 853.0
-offset_right = 1153.0
-offset_bottom = 648.0
+offset_left = 1167.0
+offset_right = 1671.0
+offset_bottom = 1075.0
 
 [node name="Control" parent="Collection3" instance=ExtResource("1_8cr15")]
 layout_mode = 2
@@ -65,22 +63,34 @@ layout_mode = 1
 
 [node name="Button" type="Button" parent="."]
 top_level = true
-layout_mode = 0
-offset_left = 1072.0
-offset_top = 616.0
-offset_right = 1153.0
-offset_bottom = 647.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -30.0
+offset_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Add Note
 "
 script = ExtResource("4_70acs")
 
 [node name="Button2" type="Button" parent="."]
 top_level = true
-layout_mode = 0
-offset_left = 918.0
-offset_top = 616.0
-offset_right = 1071.0
-offset_bottom = 647.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -238.0
+offset_top = -31.0
+offset_right = -85.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "open save location"
 script = ExtResource("5_tkmw1")
 

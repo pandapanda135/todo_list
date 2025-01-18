@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dg8lmyc0ukc1u"]
+[gd_scene load_steps=3 format=3 uid="uid://dg8lmyc0ukc1u"]
 
 [ext_resource type="Script" path="res://node_script.gd" id="1_gbth7"]
+[ext_resource type="Script" path="res://window_button.gd" id="2_ecya8"]
 
 [node name="Control" type="Control" groups=["persist_nodes"]]
 layout_mode = 3
@@ -72,3 +73,12 @@ offset_right = 89.0
 offset_bottom = 104.0
 mouse_filter = 1
 text = "v"
+
+[node name="WindowButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 149.0
+offset_right = 220.0
+offset_bottom = 33.0
+text = "window"
+flat = true
+script = ExtResource("2_ecya8")

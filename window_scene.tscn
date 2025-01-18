@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5asxxium3xsn"]
+
+[ext_resource type="Script" path="res://window_script.gd" id="1_23rpk"]
+
+[node name="Window" type="Window"]
+initial_position = 1
+size = Vector2i(480, 560)
+transparent = true
+content_scale_mode = 2
+script = ExtResource("1_23rpk")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="TitleLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "THIS iS THE TITLE"
+
+[node name="HSeparator" type="HSeparator" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Lorem ipsum odor amet, consectetuer adipiscing elit. Magna sit diam lacus pulvinar; blandit adipiscing pretium. Eleifend quis sed urna; bibendum felis nibh sollicitudin quis. Risus quam maximus justo magnis potenti felis mi egestas? Leo cras per torquent aliquam justo. Class commodo rhoncus vestibulum magna eleifend.
+
+Laoreet auctor sapien, duis placerat dignissim pharetra! Potenti purus ullamcorper venenatis nostra conubia integer odio montes. Dictumst tortor rutrum; finibus porta proin morbi. Porttitor aenean at magna nulla aliquet facilisi lectus. Efficitur pellentesque consectetur urna et vel euismod velit egestas est. Facilisis et aliquam feugiat sollicitudin elit fringilla curae. Orci ultricies tristique himenaeos primis, taciti consectetur semper.
+
+Facilisi nisi cubilia integer vivamus tellus maecenas. Mauris nibh nisl sollicitudin imperdiet convallis; finibus cubilia. Gravida at eros platea finibus magna erat donec. Fusce dignissim mattis vehicula enim ac libero. Eros malesuada magnis fringilla nisl a maecenas. Posuere varius dapibus sollicitudin finibus hac rhoncus odio. Placerat eros ornare ex hendrerit aenean proin dapibus nec interdum. Ridiculus aliquet vehicula rhoncus eros tellus purus nam. Platea aliquam eu urna feugiat sed ultrices taciti.
+
+Efficitur vivamus inceptos felis fringilla tortor mus. Molestie gravida fusce suspendisse ultricies consequat nec. Habitant purus accumsan faucibus donec pretium nam eget magna natoque. Aetiam imperdiet habitant enim in elementum nisi sollicitudin fames. Diam porta venenatis aenean diam aptent vel convallis pharetra. Himenaeos vestibulum ad cras, fermentum viverra posuere. Mattis finibus curae sagittis porta urna ac torquent. Pulvinar quis iaculis fringilla lacus massa dignissim facilisi.
+
+Aptent nec vulputate per proin consectetur suscipit ante felis. Proin nibh laoreet aptent; porttitor mauris urna. Nostra nullam cras nostra etiam scelerisque et. Molestie penatibus inceptos molestie vehicula nunc malesuada tincidunt. Venenatis libero at congue pulvinar elementum! Vitae vestibulum facilisi cubilia aenean quisque donec integer cursus. Ad sociosqu sed venenatis elementum lorem augue facilisi curae primis. Suspendisse dolor consectetur venenatis posuere tempus maecenas. Justo finibus praesent enim porttitor id tristique elementum mollis.
+
+Lorem ipsum odor amet, consectetuer adipiscing elit. Magna sit diam lacus pulvinar; blandit adipiscing pretium. Eleifend quis sed urna; bibendum felis nibh sollicitudin quis. Risus quam maximus justo magnis potenti felis mi egestas? Leo cras per torquent aliquam justo. Class commodo rhoncus vestibulum magna eleifend.
+
+Laoreet auctor sapien, duis placerat dignissim pharetra! Potenti purus ullamcorper venenatis nostra conubia integer odio montes. Dictumst tortor rutrum; finibus porta proin morbi. Porttitor aenean at magna nulla aliquet facilisi lectus. Efficitur pellentesque consectetur urna et vel euismod velit egestas est. Facilisis et aliquam feugiat sollicitudin elit fringilla curae. Orci ultricies tristique himenaeos primis, taciti consectetur semper.
+
+Facilisi nisi cubilia integer vivamus tellus maecenas. Mauris nibh nisl sollicitudin imperdiet convallis; finibus cubilia. Gravida at eros platea finibus magna erat donec. Fusce dignissim mattis vehicula enim ac libero. Eros malesuada magnis fringilla nisl a maecenas. Posuere varius dapibus sollicitudin finibus hac rhoncus odio. Placerat eros ornare ex hendrerit aenean proin dapibus nec interdum. Ridiculus aliquet vehicula rhoncus eros tellus purus nam. Platea aliquam eu urna feugiat sed ultrices taciti.
+
+Efficitur vivamus inceptos felis fringilla tortor mus. Molestie gravida fusce suspendisse ultricies consequat nec. Habitant purus accumsan faucibus donec pretium nam eget magna natoque. Aetiam imperdiet habitant enim in elementum nisi sollicitudin fames. Diam porta venenatis aenean diam aptent vel convallis pharetra. Himenaeos vestibulum ad cras, fermentum viverra posuere. Mattis finibus curae sagittis porta urna ac torquent. Pulvinar quis iaculis fringilla lacus massa dignissim facilisi.
+
+Aptent nec vulputate per proin consectetur suscipit ante felis. Proin nibh laoreet aptent; porttitor mauris urna. Nostra nullam cras nostra etiam scelerisque et. Molestie penatibus inceptos molestie vehicula nunc malesuada tincidunt. Venenatis libero at congue pulvinar elementum! Vitae vestibulum facilisi cubilia aenean quisque donec integer cursus. Ad sociosqu sed venenatis elementum lorem augue facilisi curae primis. Suspendisse dolor consectetur venenatis posuere tempus maecenas. Justo finibus praesent enim porttitor id tristique elementum mollis."
+autowrap_mode = 3

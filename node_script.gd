@@ -9,7 +9,7 @@ signal node_made
 @onready var down_arrow: Button = $ArrowHandler/DownArrow
 @onready var left_arrow: Button = $ArrowHandler/LeftArrow
 
-@export var json_file:String = ""
+@onready var json_file:String
 @export var current_position:int
 
 #declare the collection is will be in within the save file modfiy the save file code
@@ -17,8 +17,7 @@ signal node_made
 #by moving the code that spawn the code into the load_node function so it is being loaded
 #and moved which should be easier
 
-#TODO: could fix the issue of inaccurate arrow viability with a signal sent everytime a node spawns
-func _ready():
+func _ready() -> void:
 	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
 	var _right_arrow_signal:bool = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
@@ -94,11 +93,8 @@ func move_node_vertical(Down:bool) -> void:
 		# print("after move_child",get_parent().get_children())
 	check_arrow_visibility()
 
-#TODO: when the node is made there is nothing beneath them so the down arrow will always be disabled until it moves (FIXED?)
 #look if there is a node above or belo current node if so then keep button enabled else set disabled
 #this breaks if nodes are invisible as they are still in the tree however they dont display so only the appropriate nodes get disabled
-#TODO: Fix that pressing down on top arrow doesnt work (should be fixed)
-#TODO: Fix that horizontal movement doesnt disable the node that is not being called however is still being moved (should be fixed)
 func check_arrow_visibility(last_parent:Node = null) -> void:
 	var child_nodes:Array[Node] = get_parent().get_children()
 	var node_index:int = child_nodes.find(self)
