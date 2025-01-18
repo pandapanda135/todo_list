@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://4ohhu5aryk3p"]
+[gd_scene load_steps=4 format=3 uid="uid://4ohhu5aryk3p"]
 
-[ext_resource type="PackedScene" uid="uid://dg8lmyc0ukc1u" path="res://individual_node_test.tscn" id="1_8cr15"]
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://Modal.tscn" id="3_a3yvw"]
 [ext_resource type="Script" path="res://add_note_ui.gd" id="4_70acs"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="5_tkmw1"]
@@ -18,44 +17,17 @@ layout_mode = 0
 offset_right = 569.0
 offset_bottom = 1081.0
 
-[node name="Control" parent="Collection1" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control2" parent="Collection1" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control3" parent="Collection1" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control4" parent="Collection1" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
 [node name="Collection2" type="VFlowContainer" parent="."]
 layout_mode = 0
 offset_left = 603.0
 offset_right = 1127.0
 offset_bottom = 1084.0
 
-[node name="Control" parent="Collection2" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control2" parent="Collection2" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control3" parent="Collection2" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
 [node name="Collection3" type="VFlowContainer" parent="."]
 layout_mode = 0
 offset_left = 1167.0
 offset_right = 1671.0
 offset_bottom = 1075.0
-
-[node name="Control" parent="Collection3" instance=ExtResource("1_8cr15")]
-layout_mode = 2
-
-[node name="Control2" parent="Collection3" instance=ExtResource("1_8cr15")]
-layout_mode = 2
 
 [node name="ModalController" parent="." instance=ExtResource("3_a3yvw")]
 visible = false
@@ -93,7 +65,3 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "open save location"
 script = ExtResource("5_tkmw1")
-
-[editable path="Collection1/Control"]
-[editable path="Collection1/Control2"]
-[editable path="Collection1/Control3"]
