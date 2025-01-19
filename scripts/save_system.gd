@@ -26,7 +26,7 @@ func _ready() -> void:
 	if FileAccess.file_exists(save_path_variables):
 		load_variables()
 	else:
-		pass
+		save_variables() #should make variables file if doesnt exist
 
 	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above) (it might not be removed)
 	var dir = DirAccess.open("user://")
@@ -216,7 +216,7 @@ func load_node() -> void:
 func save_variables() -> void:
 	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
 
-	var node_data:int = save_amount
+	var node_data:int = save_amount + 1
 
 	var json_string:String = JSON.stringify(node_data)
 
@@ -244,6 +244,6 @@ func correct_save_path() -> void:
 		save_variables()
 	else:
 		print("correct_save_path second if")
-		load_variables()
+		save_variables()
 	save_amount_string = str(save_amount)
 	save_path = "user://note_%s.json" % save_amount_string

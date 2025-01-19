@@ -13,7 +13,6 @@ func _text_submitted(submitted_text) -> void:
 		print("empty description")
 	else:
 		saved_text = submitted_text
-		save()
 
 func save() -> String:
 	print("ThIS iS THE SAVE TEXT",saved_text)

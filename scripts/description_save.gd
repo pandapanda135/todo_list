@@ -11,7 +11,6 @@ func _on_text_changed() -> void:
 		print("empty description")
 	else:
 		saved_text = self.text
-		save()
 
 func save() -> String:
 	var save_String_2:String = saved_text
