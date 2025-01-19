@@ -4,7 +4,7 @@ extends Node
 @onready var label_title_node: Label = get_parent().get_node("/root/Control/TitleLabel")
 @onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
 
-@onready var control = get_parent().get_node("/root/Control")
+@onready var control:Control = get_parent().get_node("/root/Control")
 
 @onready var save_path_variables:String = "user://variables.json"
 
@@ -15,7 +15,7 @@ var save_path:String = "user://note_%s.json" % save_amount_string
 var selected_save_file_string:String = "0"
 var selected_save_file:String = "user://note_%s.json" % selected_save_file_string
 
-var selected_json_file
+var selected_json_file:String
 
 var check_save_amount_correct:bool = true
 
@@ -29,7 +29,7 @@ func _ready() -> void:
 		save_variables() #should make variables file if doesnt exist
 
 	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above) (it might not be removed)
-	var dir = DirAccess.open("user://")
+	var dir:DirAccess = DirAccess.open("user://")
 	var file_name_array:Array[String]
 	if dir:
 		dir.list_dir_begin()
@@ -164,9 +164,12 @@ func load_container(save_file:String) -> void:
 	print("LOAD_CONTAINOR save_int ",save_int)
 	value_int = save_int
 
-func delete_selected_file(save_string:String) -> void:
-	selected_save_file_string = save_string
-	selected_save_file = "user://note_%s.json" % selected_save_file_string
+func delete_selected_file(save_string:String = "",json_file:String = "") -> void:
+	if save_string != "":
+		selected_save_file_string = save_string
+		selected_save_file = "user://note_%s.json" % selected_save_file_string
+	else:
+		selected_save_file = json_file
 
 	if DirAccess.remove_absolute(selected_save_file) == 1:
 		print("this does not exist")

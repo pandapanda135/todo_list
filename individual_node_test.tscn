@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dg8lmyc0ukc1u"]
+[gd_scene load_steps=4 format=3 uid="uid://dg8lmyc0ukc1u"]
 
 [ext_resource type="Script" path="res://node_script.gd" id="1_gbth7"]
 [ext_resource type="Script" path="res://window_button.gd" id="2_ecya8"]
+[ext_resource type="Script" path="res://delete_button.gd" id="3_ictxv"]
 
 [node name="Control" type="Control" groups=["persist_nodes"]]
 layout_mode = 3
@@ -82,3 +83,12 @@ offset_bottom = 33.0
 text = "window"
 flat = true
 script = ExtResource("2_ecya8")
+
+[node name="DeleteButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 220.0
+offset_right = 279.0
+offset_bottom = 31.0
+text = "Delete"
+flat = true
+script = ExtResource("3_ictxv")

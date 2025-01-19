@@ -64,14 +64,18 @@ func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 			move_node_horizontal(second_third)
 
 func _on_node_made() -> void:
+	var spawn_tree:Array[Node] = get_parent().get_children() #stops down arrow being disabled when new node is made
+	if len(spawn_tree) > 1:
+		print("FIRST IF DONE WOOOOOOOO")
+		spawn_tree[len(spawn_tree) - 2].down_arrow.disabled = false
 	print("SIGNAL")
 	first_arrow_visibility_check()
 
 #CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move? DONE KINDA
 func move_node_horizontal(new_parent:Node) -> void:
-	var current_index = self.get_index()
-	var new_children = new_parent.get_child_count()
-	var last_parent = self.get_parent()
+	var current_index:int = self.get_index()
+	var new_children:int = new_parent.get_child_count()
+	var last_parent:Node = self.get_parent()
 
 	if current_index > new_children:
 		self.reparent(new_parent)
@@ -82,7 +86,7 @@ func move_node_horizontal(new_parent:Node) -> void:
 	check_arrow_visibility(last_parent)
 
 func move_node_vertical(Down:bool) -> void:
-	var parent = get_parent()
+	var parent:Node = get_parent()
 	var current_index:int = self.get_index()
 
 	if Down == true:
@@ -124,7 +128,7 @@ func check_arrow_visibility(last_parent:Node = null) -> void:
 
 	#seperate if because issues I cant be bothered to fix
 	if self == child_nodes[max_index - 2] and child_nodes[max_index - 1].down_arrow.disabled != true:
-		print("line 111 down arrow disabled")
+		print("line 127 down arrow disabled")
 		child_nodes[max_index - 1].down_arrow.disabled = true
 	else:
 		pass
@@ -135,10 +139,10 @@ func check_arrow_visibility(last_parent:Node = null) -> void:
 	else:
 		print("down disabled")
 		child_nodes[max_index - 2].down_arrow.disabled = false
-		print(down_arrow," disabled line 143")
+		print(down_arrow," disabled line 138")
 
 func first_arrow_visibility_check() -> void:
-	var child_nodes:Array = get_parent().get_children()
+	var child_nodes:Array[Node] = get_parent().get_children()
 
 	if self in child_nodes:
 		var node_index:int = child_nodes.find(self)
@@ -155,7 +159,7 @@ func first_arrow_visibility_check() -> void:
 			# print(child_nodes[max_index - 2])
 			# child_nodes[0].up_arrow.disabled = false
 
-		#down check
+		#down check THIS DOESNT WORK WHEN NEW NODE IS MADE DEAR GOD WHY
 		print(node_index + 1," this is the diff ",child_nodes.size())
 		if node_index_1 < child_nodes.size():
 			print("down not disabled")
@@ -163,7 +167,7 @@ func first_arrow_visibility_check() -> void:
 		else:
 			print("down disabled")
 			down_arrow.disabled = true #bad
-			print(down_arrow," disabled line 143")
+			print(down_arrow," disabled line 166")
 
 func disable_horizontal(last_parent) -> void:
 	var last_parent_children:Array[Node] = last_parent.get_children()
