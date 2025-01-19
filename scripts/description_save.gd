@@ -15,5 +15,6 @@ func _on_text_changed() -> void:
 
 func save() -> String:
 	var save_String_2:String = saved_text
+	saved_text = ""
 	print(save_String_2)
 	return save_String_2

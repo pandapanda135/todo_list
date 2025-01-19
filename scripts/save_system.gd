@@ -86,6 +86,10 @@ func save_note() -> void:
 			# Call the node's save function. This is a string as with the scope of the project we should only store text
 			var node_data = node.call("save")
 
+			if node_data is String and node_data == "":
+				print("a '%s' is the group persist has a null value" % node)
+				return
+
 			# JSON provides a static method to serialized JSON string.
 			var json_string:String = JSON.stringify(node_data)
 			print("THIS iS JSON_STRING",json_string)
@@ -101,7 +105,6 @@ func save_note() -> void:
 	else:
 		print("check_save_amount_correct is set to false")
 
-#TODO: Make save_int do stuff for lodaing
 func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
 	# selected_save_file_string = selected_id
 	# selected_save_file = "user://note_%s.json" % selected_save_file_string
