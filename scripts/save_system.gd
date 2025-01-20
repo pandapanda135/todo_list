@@ -169,12 +169,10 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 var value_int:int
 func add_and_change_made_nodes(save_number:int) -> void:
 	load_container("user://note_%s.json" % save_number)
-	# var root:Node = get_tree().get_root()
 	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but it works at its probably going to stay this way
 	var first_child:Node = node_scene.get_child(0)
 	var second_child:Node = node_scene.get_child(1)
 
-	# root.add_child.call_deferred(node_scene)
 	match value_int:
 		0:
 			Gui.collection_1.add_child.call_deferred(node_scene)
