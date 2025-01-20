@@ -97,7 +97,6 @@ func save_note() -> void:
 			# Store the save dictionary as a new line in the save file.
 			save_file.store_line(json_string)
 
-		 #cant have this here as I think the file doesnt save until after the function is finished so load_note cant read the lines it needs
 		save_file.close()
 		add_and_change_made_nodes(save_amount)
 		increment_save_path()
@@ -124,17 +123,16 @@ func load_reusable(save_file:String) -> Dictionary:
 	}
 
 func save_overwrite(save_file:String,dict:Dictionary) -> void:
+	DirAccess.remove_absolute(save_file)
 	var save_file_select:FileAccess = FileAccess.open(save_file, FileAccess.WRITE)
 	for key in dict:
-		for i in range(0,3):
-			if dict[key] is String and dict[key] == "":
-				print("EMPTY STRING OR SOMETHING OR BIG MISTAKE AAAAA")
-				return
+		if dict[key] is String and dict[key] == "":
+			print("EMPTY STRING OR SOMETHING OR BIG MISTAKE AAAAA")
+			return
 
-			var json_string:String = JSON.stringify(dict[key])
-			print("THIS iS JSON_STRING",json_string)
+		var json_string:String = JSON.stringify(dict[key])
 
-			save_file_select.store_line(json_string)
+		save_file_select.store_line(json_string)
 
 func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
 	print("save_file",save_file)
@@ -152,7 +150,6 @@ func load_note(save_file:String,label_title:Node,label_description:Node) -> void
 
 func change_note(save_file:String,line_change:int,string_change:String = "",int_change:int = -1) -> void:
 	var value:Dictionary = load_reusable(save_file)
-
 	match line_change:
 		0:
 			value["save_string"] = string_change

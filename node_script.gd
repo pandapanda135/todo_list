@@ -49,9 +49,10 @@ func check_node_position(clicked_node) -> void:
 			print("match do nothing as in brokey")
 	print("PARENT OF NODE",self.get_parent())
 
+#args are new node that the move to depending on what the parent of self is
 func move_match(second_first:Node,second_second:Node,second_third:Node) -> void:
 	match self.get_parent():
-		Gui.collection_1:
+		Gui.collection_1:# if left node it will go to third collection if right will go to second collection
 			move_node_horizontal(second_first)
 		Gui.collection_2:
 			move_node_horizontal(second_second)
@@ -67,7 +68,7 @@ func _on_node_made() -> void:
 	first_arrow_visibility_check()
 
 #CONSIDER:maybe add something that makes it so it keeps it current index in the collection on move? DONE KINDA
-func move_node_horizontal(new_parent:Node) -> void:
+func move_node_horizontal(new_parent:Node) -> void: #reparent node
 	var current_index:int = self.get_index()
 	var new_children:int = new_parent.get_child_count()
 	var last_parent:Node = self.get_parent()
@@ -79,6 +80,14 @@ func move_node_horizontal(new_parent:Node) -> void:
 		self.reparent(new_parent)
 		new_parent.move_child(self,current_index)
 	check_arrow_visibility(last_parent)
+
+	match new_parent: #change which container is selected in save file
+		Gui.collection_1:
+			SaveSystem.change_note(json_file,2,"",0)
+		Gui.collection_2:
+			SaveSystem.change_note(json_file,2,"",1)
+		Gui.collection_3:
+			SaveSystem.change_note(json_file,2,"",2)
 
 func move_node_vertical(Down:bool) -> void:
 	var parent:Node = get_parent()
