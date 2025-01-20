@@ -17,6 +17,9 @@ signal node_made
 #by moving the code that spawn the code into the load_node function so it is being loaded
 #and moved which should be easier
 
+#TODO: add either a system to update a file or write over an exisiting file so new node position can be saved and also edit a note and also for index saving later
+#current idea is write over file by stealing code from load note and save note this can be done with 4 (or however many option arguments are needed)
+#and the new value will be passed through that there could also be another argument that can be an int that will decide the line that will be changed with a match statment
 func _ready() -> void:
 	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
@@ -31,16 +34,8 @@ func check_node_position(clicked_node) -> void:
 	print("running move_node with",clicked_node)
 	match clicked_node:
 		up_arrow:
-			print(up_arrow,"was used in signal")
-			#dont modify until make system to move up in tree
-			match self.get_parent():
-				Gui.collection_1:
-					print("asld")
-				Gui.collection_2:
-					print("asfgjfsgjfgsj")
-				Gui.collection_3:
-					print("FGDHFGSDHFGH")
 			move_node_vertical(false)
+			print(up_arrow,"was used in signal")
 		left_arrow:
 			move_match(Gui.collections_array[2],Gui.collections_array[0],Gui.collections_array[1])
 			print(left_arrow,"was used in signal")

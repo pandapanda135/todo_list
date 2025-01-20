@@ -105,30 +105,66 @@ func save_note() -> void:
 	else:
 		print("check_save_amount_correct is set to false")
 
-func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
-	# selected_save_file_string = selected_id
-	# selected_save_file = "user://note_%s.json" % selected_save_file_string
-	print("save_file",save_file)
+func load_reusable(save_file:String) -> Dictionary:
 	var file := FileAccess.open(save_file, FileAccess.READ)
 	var json := JSON.new()
 	var json_line_2 := JSON.new()
 	var json_line_3 := JSON.new()
+	var json_line_4 := JSON.new()
 	json.parse(file.get_line())
 	json_line_2.parse(file.get_line())
 	json_line_3.parse(file.get_line())
-	var save_String := json.get_data() as String
-	var save_String_2 := json_line_2.get_data() as String
-	# var save_int := json_line_3.get_data() as int
+	json_line_4.parse(file.get_line())
 
-	print(save_String)
-	print(save_String_2)
+	return {
+		"save_string": json.get_data() as String,
+		"save_string_2": json_line_2.get_data() as String,
+		"save_int": json_line_3.get_data() as int,
+		"save_int_2": json_line_3.get_data() as int
+	}
+
+func save_overwrite(save_file:String,dict:Dictionary) -> void:
+	var save_file_select:FileAccess = FileAccess.open(save_file, FileAccess.WRITE)
+	for key in dict:
+		for i in range(0,3):
+			if dict[key] is String and dict[key] == "":
+				print("EMPTY STRING OR SOMETHING OR BIG MISTAKE AAAAA")
+				return
+
+			var json_string:String = JSON.stringify(dict[key])
+			print("THIS iS JSON_STRING",json_string)
+
+			save_file_select.store_line(json_string)
+
+func load_note(save_file:String,label_title:Node,label_description:Node) -> void:
+	print("save_file",save_file)
+	var value = load_reusable(save_file)
+
+	print(value["save_string"])
+	print(value["save_string_2"])
 
 	#temporary for test purposes
 	if label_title == null and label_description == null:
 		print("nodes not initialized")
 	else:
-		label_title.text = save_String
-		label_description.text = save_String_2
+		label_title.text = value["save_string"]
+		label_description.text = value["save_string_2"]
+
+func change_note(save_file:String,line_change:int,string_change:String = "",int_change:int = -1) -> void:
+	var value:Dictionary = load_reusable(save_file)
+
+	match line_change:
+		0:
+			value["save_string"] = string_change
+		1:
+			value["save_string_2"] = string_change
+		2:
+			value["save_int"] = int_change
+		3:
+			value["save_int_2"] = int_change
+		_:
+			print("line_change is too high")
+	save_overwrite(save_file,value)
 
 var value_int:int
 func add_and_change_made_nodes(save_number:int) -> void:
