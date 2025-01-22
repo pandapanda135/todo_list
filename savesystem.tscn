@@ -43,5 +43,6 @@ offset_bottom = 577.0
 rotation = -0.00191983
 text = "save"
 script = ExtResource("5_lbckc")
+save_note = true
 
 [connection signal="pressed" from="SaveButton" to="." method="save_note"]

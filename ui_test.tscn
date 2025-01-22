@@ -16,22 +16,31 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 569.0
 offset_bottom = 1081.0
+mouse_filter = 2
 
 [node name="Collection2" type="VFlowContainer" parent="."]
 layout_mode = 0
 offset_left = 603.0
 offset_right = 1127.0
 offset_bottom = 1084.0
+mouse_filter = 2
 
 [node name="Collection3" type="VFlowContainer" parent="."]
 layout_mode = 0
 offset_left = 1167.0
 offset_right = 1671.0
 offset_bottom = 1075.0
+mouse_filter = 2
 
 [node name="ModalController" parent="." instance=ExtResource("3_a3yvw")]
 visible = false
 layout_mode = 1
+
+[node name="TitleLabel" parent="ModalController/HFlowContainer/Control" index="0" groups=["persist"]]
+
+[node name="DescriptionLabel" parent="ModalController/HFlowContainer/Control" index="1" groups=["persist"]]
+
+[node name="ContainerSelect" parent="ModalController/HFlowContainer/Control" index="2" groups=["persist"]]
 
 [node name="Button" type="Button" parent="."]
 top_level = true
@@ -65,3 +74,6 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "open save location"
 script = ExtResource("5_tkmw1")
+
+[editable path="ModalController"]
+[editable path="ModalController/HFlowContainer/Control"]

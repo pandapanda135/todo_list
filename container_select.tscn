@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://container_select.gd" id="1_5ocwa"]
 
-[node name="ContainerSelect" type="OptionButton" groups=["persist"]]
+[node name="ContainerSelect" type="OptionButton"]
 offset_right = 73.0
 offset_bottom = 31.0
 item_count = 3

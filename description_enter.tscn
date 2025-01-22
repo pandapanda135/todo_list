@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6ci0vroscf37"]
 
-[node name="TextEdit" type="TextEdit" groups=["persist"]]
+[node name="TextEdit" type="TextEdit"]
 offset_left = 25.0
 offset_top = 140.0
 offset_right = 605.0

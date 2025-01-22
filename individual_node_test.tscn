@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg8lmyc0ukc1u"]
+[gd_scene load_steps=6 format=3 uid="uid://dg8lmyc0ukc1u"]
 
 [ext_resource type="Script" path="res://node_script.gd" id="1_gbth7"]
 [ext_resource type="Script" path="res://window_button.gd" id="2_ecya8"]
 [ext_resource type="Script" path="res://delete_button.gd" id="3_ictxv"]
+[ext_resource type="Script" path="res://edit_button.gd" id="4_1npj4"]
+[ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://Modal.tscn" id="5_yitny"]
 
 [node name="Control" type="Control" groups=["persist_nodes"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -940.0
-offset_bottom = -557.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 2
@@ -35,6 +35,38 @@ text = "Test Text For Description
 this is the second line and wow look at those ellipsis"
 vertical_alignment = 3
 text_overrun_behavior = 3
+
+[node name="ModalController" parent="." instance=ExtResource("5_yitny")]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="DescriptionLabel" parent="ModalController/HFlowContainer/Control" index="1"]
+offset_top = 94.4444
+offset_bottom = 350.444
+
+[node name="ContainerSelect" parent="ModalController/HFlowContainer/Control" index="2"]
+visible = false
+
+[node name="SaveButton" parent="ModalController/HFlowContainer/Control" index="3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 508.333
+offset_top = 417.222
+offset_right = 636.333
+offset_bottom = 482.222
+grow_horizontal = 2
+grow_vertical = 2
+text = "save edit"
+save_note = false
 
 [node name="ArrowHandler" type="Control" parent="."]
 anchors_preset = 0
@@ -92,3 +124,16 @@ offset_bottom = 31.0
 text = "Delete"
 flat = true
 script = ExtResource("3_ictxv")
+
+[node name="EditButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 219.0
+offset_top = 30.0
+offset_right = 259.0
+offset_bottom = 61.0
+text = "edit"
+flat = true
+script = ExtResource("4_1npj4")
+
+[editable path="ModalController"]
+[editable path="ModalController/HFlowContainer/Control"]

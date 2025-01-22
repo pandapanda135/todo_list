@@ -1,22 +1,20 @@
 extends LineEdit
 
-var saved_text:String
-# var save_String:String
+#TODO: when the save function is called it overwrites saved_text meaning it is "" (THIS IS FIXED BECUASE THE GROUP SYSTEM IS DUMB)
+var saved_text:String = "THIS IS THE DEFAULT VALUE"
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.text_submitted.connect(_text_submitted)
+	self.text_changed.connect(_text_changed)
 
-func _text_submitted(submitted_text) -> void:
-	print("THIS IS ThE SUBMITTED TEXT",submitted_text)
+func _text_changed(submitted_text) -> void:
 	if submitted_text == "" or self.text == "":
 		print("empty description")
 	else:
+		print("_text_submitted ",submitted_text)
 		saved_text = submitted_text
 
 func save() -> String:
 	print("ThIS iS THE SAVE TEXT",saved_text)
-	var save_String:String = saved_text
+	var save_string:String = saved_text
 	saved_text = ""
-	print("THIS IS SAVE STRING",save_String)
-	return save_String
+	return save_string

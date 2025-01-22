@@ -119,7 +119,7 @@ func load_reusable(save_file:String) -> Dictionary:
 		"save_string": json.get_data() as String,
 		"save_string_2": json_line_2.get_data() as String,
 		"save_int": json_line_3.get_data() as int,
-		"save_int_2": json_line_3.get_data() as int
+		# "save_int_2": json_line_3.get_data() as int
 	}
 
 func save_overwrite(save_file:String,dict:Dictionary) -> void:
@@ -157,8 +157,8 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 			value["save_string_2"] = string_change
 		2:
 			value["save_int"] = int_change
-		3:
-			value["save_int_2"] = int_change
+		# 3: #this is not supported yet so it causes issues with saving and loading
+		# 	value["save_int_2"] = int_change
 		_:
 			print("line_change is too high")
 	save_overwrite(save_file,value)
@@ -167,7 +167,7 @@ var value_int:int
 func add_and_change_made_nodes(save_number:int) -> void:
 	load_container("user://note_%s.json" % save_number)
 	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate() #hard coded and bad incase I want to use other type of node but it works at its probably going to stay this way
-	var first_child:Node = node_scene.get_child(0)
+	var first_child:Node = node_scene.get_child(0) #TODO: I dont like this change it at some point
 	var second_child:Node = node_scene.get_child(1)
 
 	match value_int:

@@ -21,6 +21,8 @@ signal node_made
 #current idea is write over file by stealing code from load note and save note this can be done with 4 (or however many option arguments are needed)
 #and the new value will be passed through that there could also be another argument that can be an int that will decide the line that will be changed with a match statment
 func _ready() -> void:
+	var save_edit_button = get_node("ModalController/HFlowContainer/Control/SaveButton")
+	save_edit_button.get_save_file.connect(_get_save_file)
 	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
 	var _right_arrow_signal:bool = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
@@ -28,6 +30,9 @@ func _ready() -> void:
 	node_made.connect(_on_node_made)
 	node_made.emit.call_deferred()
 	first_arrow_visibility_check()
+
+func _get_save_file() -> void: # this is used for edit button
+	SaveSystem.selected_json_file = json_file
 
 func check_node_position(clicked_node) -> void:
 	check_arrow_visibility()
