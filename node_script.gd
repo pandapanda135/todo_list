@@ -12,6 +12,9 @@ signal node_made
 @onready var json_file:String
 @export var current_position:int
 
+@onready var root:Window = get_tree().get_root()
+var timer_running:bool = false
+
 #declare the collection is will be in within the save file modfiy the save file code
 #to support this and also the function that adds the nodes to the scenes this can be done
 #by moving the code that spawn the code into the load_node function so it is being loaded
@@ -23,16 +26,32 @@ signal node_made
 func _ready() -> void:
 	var save_edit_button = get_node("ModalController/HFlowContainer/Control/SaveButton")
 	save_edit_button.get_save_file.connect(_get_save_file)
+
 	var _up_arrow_signal:bool = up_arrow.pressed.connect(check_node_position.bind(up_arrow))
 	var _left_arrow_singal:bool = left_arrow.pressed.connect(check_node_position.bind(left_arrow))
 	var _right_arrow_signal:bool = right_arrow.pressed.connect(check_node_position.bind(right_arrow))
 	var _down_arrow_signal:bool = down_arrow.pressed.connect(check_node_position.bind(down_arrow))
+
 	node_made.connect(_on_node_made)
 	node_made.emit.call_deferred()
+	SignalManager.connect("index_saving", _save_index)
 	first_arrow_visibility_check()
 
 func _get_save_file() -> void: # this is used for edit button
 	SaveSystem.selected_json_file = json_file
+
+func _save_index(save_time,is_closing) -> void: # modify this is it adds a 5 min timer that will have a signal that when over it will run this line
+	print("SAVE_INDEX RUN")
+	if timer_running == false:
+		timer_running  = true
+		await get_tree().create_timer(save_time).timeout
+		SaveSystem.change_note(json_file,3,"",self.get_index())
+		timer_running = false
+	else:
+		print("timer already exists")
+
+	if is_closing == true:
+		SaveSystem.change_note(json_file,3,"",self.get_index())
 
 func check_node_position(clicked_node) -> void:
 	check_arrow_visibility()
@@ -93,6 +112,7 @@ func move_node_horizontal(new_parent:Node) -> void: #reparent node
 			SaveSystem.change_note(json_file,2,"",1)
 		Gui.collection_3:
 			SaveSystem.change_note(json_file,2,"",2)
+	SignalManager.emit_signal("index_saving",300,false)
 
 func move_node_vertical(Down:bool) -> void:
 	var parent:Node = get_parent()
@@ -105,6 +125,8 @@ func move_node_vertical(Down:bool) -> void:
 		parent.move_child(self,current_index - 1)
 		# print("after move_child",get_parent().get_children())
 	check_arrow_visibility()
+
+	SignalManager.emit_signal("index_saving",300,false)
 
 #look if there is a node above or belo current node if so then keep button enabled else set disabled
 #this breaks if nodes are invisible as they are still in the tree however they dont display so only the appropriate nodes get disabled
@@ -193,3 +215,9 @@ func disable_horizontal(last_parent) -> void:
 		last_parent_children[last_parent_child_count - 1].down_arrow.disabled = true
 	else:
 		print("NONE DISABLED")
+
+#handles saving index when closed
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		SignalManager.emit_signal("index_saving",0,true)
+		get_tree().quit()

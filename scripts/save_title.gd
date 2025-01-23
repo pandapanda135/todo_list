@@ -1,6 +1,5 @@
 extends LineEdit
 
-#TODO: when the save function is called it overwrites saved_text meaning it is "" (THIS IS FIXED BECUASE THE GROUP SYSTEM IS DUMB)
 var saved_text:String = "THIS IS THE DEFAULT VALUE"
 
 func _ready() -> void:

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Gui="*res://scripts/gui_singleton.gd"
 SaveSystem="*res://scripts/save_system.gd"
+SignalManager="*res://scripts/signal_manager.gd"
 
 [display]
 

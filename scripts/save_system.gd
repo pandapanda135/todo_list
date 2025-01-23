@@ -1,5 +1,7 @@
 extends Node
 
+# signal load_node_signal
+
 # we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
 @onready var label_title_node: Label = get_parent().get_node("/root/Control/TitleLabel")
 @onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
@@ -20,7 +22,7 @@ var selected_json_file:String
 var check_save_amount_correct:bool = true
 
 #this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
-#make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this 
+#make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this
 # that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
 func _ready() -> void:
 	if FileAccess.file_exists(save_path_variables):
@@ -65,6 +67,10 @@ func _ready() -> void:
 		printerr("issues with if in _ready")
 		check_save_amount_correct = false
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
+	#temp for loading node index
+	# self.connect("load_node_signal",load_node)
+	# load_node_signal.emit()
+	# print("READY",Gui.collection_1.get_children())
 
 func save_note() -> void:
 	print("save_amount: ",save_path)
@@ -104,7 +110,7 @@ func save_note() -> void:
 	else:
 		print("check_save_amount_correct is set to false")
 
-func load_reusable(save_file:String) -> Dictionary:
+func load_reusable(save_file:String) -> Dictionary: #when next godot version out update all references of this to use typed dictionaries
 	var file := FileAccess.open(save_file, FileAccess.READ)
 	var json := JSON.new()
 	var json_line_2 := JSON.new()
@@ -119,7 +125,7 @@ func load_reusable(save_file:String) -> Dictionary:
 		"save_string": json.get_data() as String,
 		"save_string_2": json_line_2.get_data() as String,
 		"save_int": json_line_3.get_data() as int,
-		# "save_int_2": json_line_3.get_data() as int
+		"save_int_2": json_line_4.get_data() as int
 	}
 
 func save_overwrite(save_file:String,dict:Dictionary) -> void:
@@ -157,8 +163,8 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 			value["save_string_2"] = string_change
 		2:
 			value["save_int"] = int_change
-		# 3: #this is not supported yet so it causes issues with saving and loading
-		# 	value["save_int_2"] = int_change
+		3:
+			value["save_int_2"] = int_change
 		_:
 			print("line_change is too high")
 	save_overwrite(save_file,value)
@@ -245,7 +251,13 @@ func save_nodes() -> void:
 
 #this is probably need to be used when more ui/ux aspects are implemented
 func load_node() -> void:
-	pass
+	var child_nodes_collection = Gui.collection_1.get_children()
+	print("CHILD_NODES",child_nodes_collection)
+	for i in child_nodes_collection:
+		var current_json_file = child_nodes_collection[i].json_file
+		var load_values:Dictionary = load_reusable(current_json_file)
+
+		child_nodes_collection[i].move_child(child_nodes_collection[i],load_values["save_int_2"])
 
 func save_variables() -> void:
 	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)

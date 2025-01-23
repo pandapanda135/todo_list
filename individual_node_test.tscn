@@ -16,6 +16,7 @@ grow_vertical = 2
 size_flags_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_gbth7")
+current_position = null
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0
