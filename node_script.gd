@@ -14,7 +14,7 @@ signal node_made
 
 @onready var root:Window = get_tree().get_root()
 var timer_running:bool = false
-
+@export var index_saving_timer:int = 300
 #declare the collection is will be in within the save file modfiy the save file code
 #to support this and also the function that adds the nodes to the scenes this can be done
 #by moving the code that spawn the code into the load_node function so it is being loaded
@@ -42,16 +42,20 @@ func _get_save_file() -> void: # this is used for edit button
 
 func _save_index(save_time,is_closing) -> void: # modify this is it adds a 5 min timer that will have a signal that when over it will run this line
 	print("SAVE_INDEX RUN")
+
+	if is_closing == true:
+		SaveSystem.change_note(json_file,3,"",self.get_index())
+		return
+
 	if timer_running == false:
 		timer_running  = true
 		await get_tree().create_timer(save_time).timeout
+		print("THIS IS INDEx",self.get_index())
 		SaveSystem.change_note(json_file,3,"",self.get_index())
 		timer_running = false
 	else:
 		print("timer already exists")
 
-	if is_closing == true:
-		SaveSystem.change_note(json_file,3,"",self.get_index())
 
 func check_node_position(clicked_node) -> void:
 	check_arrow_visibility()
@@ -112,7 +116,7 @@ func move_node_horizontal(new_parent:Node) -> void: #reparent node
 			SaveSystem.change_note(json_file,2,"",1)
 		Gui.collection_3:
 			SaveSystem.change_note(json_file,2,"",2)
-	SignalManager.emit_signal("index_saving",300,false)
+	SignalManager.emit_signal("index_saving",index_saving_timer,false)
 
 func move_node_vertical(Down:bool) -> void:
 	var parent:Node = get_parent()
@@ -126,7 +130,7 @@ func move_node_vertical(Down:bool) -> void:
 		# print("after move_child",get_parent().get_children())
 	check_arrow_visibility()
 
-	SignalManager.emit_signal("index_saving",300,false)
+	SignalManager.emit_signal("index_saving",index_saving_timer,false)
 
 #look if there is a node above or belo current node if so then keep button enabled else set disabled
 #this breaks if nodes are invisible as they are still in the tree however they dont display so only the appropriate nodes get disabled
@@ -215,6 +219,9 @@ func disable_horizontal(last_parent) -> void:
 		last_parent_children[last_parent_child_count - 1].down_arrow.disabled = true
 	else:
 		print("NONE DISABLED")
+
+func save() -> int: #? this will be used for save_note support for index using self.get_index()
+	return self.get_index() #! THIS DOESNT WORK
 
 #handles saving index when closed
 func _notification(what):

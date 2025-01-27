@@ -25,4 +25,3 @@ func _on_pressed() -> void:
 		SaveSystem.change_note(SaveSystem.selected_json_file,0,title_label_text)
 		SaveSystem.change_note(SaveSystem.selected_json_file,1,description_label_text)
 		SaveSystem.load_note(SaveSystem.selected_json_file,title_label_display,description_label_display)
-

@@ -1,11 +1,13 @@
 extends Node
 
 signal index_saving(timer_time:float,is_closing:bool)
+signal load_node_signal
+
 
 #handles quit notification
 
-func _process(delta):
-	print(Gui.collection_1.get_children())
+# func _process(delta): #TODO: CHANGE
+# 	print(Gui.collection_1.get_children())
 
 var already_sent_close:bool = false
 func _notification(what):
