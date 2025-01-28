@@ -1,14 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://c5asxxium3xsn"]
 
-[ext_resource type="Script" path="res://window_script.gd" id="1_23rpk"]
+[ext_resource type="Script" path="res://scripts/window_script.gd" id="1_mg5j7"]
 
 [node name="Window" type="Window"]
-transparent_bg = true
 initial_position = 1
 size = Vector2i(480, 560)
-transparent = true
+always_on_top = true
 content_scale_mode = 2
-script = ExtResource("1_23rpk")
+script = ExtResource("1_mg5j7")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

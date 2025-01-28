@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://ck58ceim2dhbu"]
 
-[ext_resource type="PackedScene" uid="uid://bux54jaws0j36" path="res://savesystem.tscn" id="1_1ma76"]
+[ext_resource type="PackedScene" uid="uid://bux54jaws0j36" path="res://scenes/savesystem.tscn" id="1_1ma76"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="3_4oxfu"]
-[ext_resource type="Script" path="res://show_title.gd" id="6_5prt7"]
-[ext_resource type="Script" path="res://selected_load_game_test.gd" id="6_smboh"]
-[ext_resource type="Script" path="res://delete_save_test.gd" id="7_0wo3u"]
+[ext_resource type="Script" path="res://scripts/show_title.gd" id="6_5prt7"]
+[ext_resource type="Script" path="res://scripts/selected_load_game_test.gd" id="6_smboh"]
+[ext_resource type="Script" path="res://scripts/delete_save_test.gd" id="7_0wo3u"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

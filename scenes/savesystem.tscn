@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bux54jaws0j36"]
 
-[ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://name_enter.tscn" id="2_5glt4"]
-[ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://description_enter.tscn" id="3_wk161"]
+[ext_resource type="PackedScene" uid="uid://dq7jxi5126bxr" path="res://scenes/name_enter.tscn" id="2_5glt4"]
+[ext_resource type="PackedScene" uid="uid://6ci0vroscf37" path="res://scenes/description_enter.tscn" id="3_wk161"]
 [ext_resource type="Script" path="res://scripts/description_save.gd" id="4_kjpw2"]
-[ext_resource type="PackedScene" uid="uid://dbraeuehrgc0" path="res://container_select.tscn" id="5_7f4qc"]
-[ext_resource type="Script" path="res://save_button_signal.gd" id="5_lbckc"]
+[ext_resource type="PackedScene" uid="uid://dbraeuehrgc0" path="res://scenes/container_select.tscn" id="5_7f4qc"]
+[ext_resource type="Script" path="res://scripts/save_button_signal.gd" id="5_lbckc"]
 
 [node name="Control" type="Control" groups=["persist_config"]]
 layout_mode = 3

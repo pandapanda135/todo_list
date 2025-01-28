@@ -7,8 +7,6 @@ signal load_node_signal
 
 @onready var control:Control = get_parent().get_node("/root/Control")
 
-@onready var save_path_variables:String = "user://variables.json"
-
 var save_amount:int = 0
 var save_amount_string:String = str(save_amount)
 var save_path:String = "user://note_%s.json" % save_amount_string
@@ -20,8 +18,11 @@ var selected_json_file:String
 
 var check_save_amount_correct:bool = true
 
+const NOTE_NODE:String = "res://scenes/individual_node_test.tscn"
+const SAVE_PATH_VARIABLES:String = "user://variables.json"
+
 func _ready() -> void:
-	if FileAccess.file_exists(save_path_variables):
+	if FileAccess.file_exists(SAVE_PATH_VARIABLES):
 		load_variables()
 	else:
 		save_variables() #should make variables file if doesnt exist
@@ -198,7 +199,7 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 
 func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> void:
 	var value_int:int = load_container("user://note_%s.json" % save_number)
-	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate()
+	var node_scene:Control = preload(NOTE_NODE).instantiate()
 	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like
 	var second_child:Node = node_scene.get_child(1)
 
@@ -293,14 +294,14 @@ func load_node() -> void:
 
 # handles variables file
 func save_variables() -> void:
-	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
+	var save_file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.WRITE)
 	var node_data:int = save_amount + 1
 	var json_string:String = JSON.stringify(node_data)
 
 	save_file.store_line(json_string)
 
 func load_variables() -> void:
-	var file := FileAccess.open(save_path_variables, FileAccess.READ)
+	var file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.READ)
 	var json := JSON.new()
 	json.parse(file.get_line())
 	var save_int := json.get_data() as int
@@ -315,7 +316,7 @@ func save() -> int:
 	return save_int
 
 func correct_save_path() -> void: # TODO: I think there is an issue relating to the save files number skipping and its probably around here
-	if DirAccess.open(save_path_variables) != null: #checks if save_path_variables exits this is so it fixes and issue or something idk what this does tbh
+	if DirAccess.open(SAVE_PATH_VARIABLES) != null: #checks if SAVE_PATH_VARIABLES exits this is so it fixes and issue or something idk what this does tbh
 		print("correct_save_path first if")
 		save_amount += 1
 		save_variables()

@@ -1,6 +1,7 @@
 extends Control
 
 signal node_made
+signal index_saving(timer_time:float,is_closing:bool)
 
 @onready var arrow_handler:Control = $ArrowHandler
 
@@ -34,7 +35,7 @@ func _ready() -> void:
 
 	node_made.connect(_on_node_made)
 	node_made.emit.call_deferred()
-	SignalManager.connect("index_saving", _save_index)
+	index_saving.connect(_save_index)
 	first_arrow_visibility_check()
 
 func _get_save_file() -> void: # this is used for edit button

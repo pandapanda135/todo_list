@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dg8lmyc0ukc1u"]
 
-[ext_resource type="Script" path="res://node_script.gd" id="1_gbth7"]
-[ext_resource type="Script" path="res://window_button.gd" id="2_ecya8"]
-[ext_resource type="Script" path="res://delete_button.gd" id="3_ictxv"]
-[ext_resource type="Script" path="res://edit_button.gd" id="4_1npj4"]
-[ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://Modal.tscn" id="5_yitny"]
+[ext_resource type="Script" path="res://scripts/node_script.gd" id="1_gbth7"]
+[ext_resource type="Script" path="res://scripts/window_button.gd" id="2_ecya8"]
+[ext_resource type="Script" path="res://scripts/delete_button.gd" id="3_ictxv"]
+[ext_resource type="Script" path="res://scripts/edit_button.gd" id="4_1npj4"]
+[ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://scenes/Modal.tscn" id="5_yitny"]
 
 [node name="Control" type="Control" groups=["persist_nodes"]]
 layout_mode = 3
