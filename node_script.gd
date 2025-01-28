@@ -220,8 +220,8 @@ func disable_horizontal(last_parent) -> void:
 	else:
 		print("NONE DISABLED")
 
-func save() -> int: #? this will be used for save_note support for index using self.get_index()
-	return self.get_index() #! THIS DOESNT WORK
+func save() -> int:
+	return self.get_index()
 
 #handles saving index when closed
 func _notification(what):

@@ -1,9 +1,7 @@
 extends Node
 
-# signal load_node_signal
 signal load_node_signal
 
-# we use onready or else load_note doesnt work due to them not being initialized correctly (I know the code is bad but its all that works :( )
 @onready var label_title_node: Label = get_parent().get_node("/root/Control/TitleLabel")
 @onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
 
@@ -14,7 +12,7 @@ signal load_node_signal
 var save_amount:int = 0
 var save_amount_string:String = str(save_amount)
 var save_path:String = "user://note_%s.json" % save_amount_string
-#this will be used for selecting note to load and delete DirAccess.remove_absolute(formated_path)
+
 var selected_save_file_string:String = "0"
 var selected_save_file:String = "user://note_%s.json" % selected_save_file_string
 
@@ -22,9 +20,6 @@ var selected_json_file:String
 
 var check_save_amount_correct:bool = true
 
-#this will be used to add the nodes to the scene incase notes are in the files however not represented as nodes
-#make system to keep value of largest node made so it doesnt need to loop through and array because if someone deletes more than two files this system breaks and its dumb and save it as var? can use save_amount for this
-# that feels dumb though so maybe find a way to where it can find the largest number in a note file than iterate that many times through a for loop however this is hard considering they are stored as strings
 func _ready() -> void:
 	if FileAccess.file_exists(save_path_variables):
 		load_variables()
@@ -69,7 +64,7 @@ func _ready() -> void:
 		check_save_amount_correct = false
 		OS.shell_open(ProjectSettings.globalize_path("user://"))
 	self.connect("load_node_signal",load_node)
-	print("READY",Gui.collection_1.get_children())
+	load_node_signal.emit()
 
 func save_note() -> void:
 	print("save_amount: ",save_path)
@@ -103,13 +98,13 @@ func save_note() -> void:
 			save_file.store_line(json_string)
 
 		save_file.close()
-		add_and_change_made_nodes(save_amount)
+		add_and_change_made_nodes(save_amount,true)
 		increment_save_path()
 		print("done")
 	else:
 		print("check_save_amount_correct is set to false")
 
-func load_reusable(save_file:String,line_4_index:int = -1,load_line_4:bool = false) -> Dictionary: #when next godot version out update all references of this to use typed dictionaries
+func load_reusable(save_file:String,line_4_index:int = -1,load_line_4:bool = false) -> Dictionary: # ?when next godot version out update all references of this to use typed dictionaries
 	var file := FileAccess.open(save_file, FileAccess.READ)
 	print("file_read_1",file)
 	var json := JSON.new()
@@ -127,7 +122,7 @@ func load_reusable(save_file:String,line_4_index:int = -1,load_line_4:bool = fal
 		var file_write := FileAccess.open(save_file, FileAccess.WRITE)
 		print("write",file_write)
 		for i:int in range(0,4):
-			match i:#should make it so it doesnt overwrite the file with nothing but the index
+			match i:# should make it so it doesnt overwrite the file with nothing but the new index this is because otherwise the fourth line is not populated and crash
 				0:
 					var json_string = JSON.stringify(json.get_data() as String)
 					file_write.store_line(json_string)
@@ -167,11 +162,14 @@ func save_overwrite(save_file:String,dict:Dictionary) -> void:
 
 		save_file_select.store_line(json_string)
 
-func load_note(save_file:String,label_title:Node,label_description:Node,node_arg:Control = null) -> void:
+func load_note(save_file:String,label_title:Node,label_description:Node,is_from_save:bool = false,node_arg:Control = null) -> void:
 	print("save_file",save_file)
 	var current_index:int = node_arg.call("save")
-	print("THIS",current_index)
-	var value = load_reusable(save_file,0,false) # TODO: make this use current index
+	var value:Dictionary
+	if is_from_save == true: # is_from_save is also used in add_or_change_node to see if this is being called from save_note I know its bad and I also hate it but it works and I already made a mistake adding index saving
+		value = load_reusable(save_file,current_index,false)
+	else:
+		value = load_reusable(save_file,current_index,true)
 
 	print(value["save_string"])
 	print(value["save_string_2"])
@@ -198,25 +196,29 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 			print("line_change is too high")
 	save_overwrite(save_file,value)
 
-func add_and_change_made_nodes(save_number:int) -> void:
+func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> void:
 	var value_int:int = load_container("user://note_%s.json" % save_number)
 	var node_scene:Control = preload("res://individual_node_test.tscn").instantiate()
 	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like
 	var second_child:Node = node_scene.get_child(1)
 
+	#TODO: using call deffered on something like this causes issues of them not being called until the function finishes this could be used to get cleaner code in other places like into this
 	match value_int:
 		0:
-			Gui.collection_1.add_child.call_deferred(node_scene)
+			Gui.collection_1.add_child(node_scene)
 		1:
-			Gui.collection_2.add_child.call_deferred(node_scene)
+			Gui.collection_2.add_child(node_scene)
 		2:
-			Gui.collection_3.add_child.call_deferred(node_scene)
+			Gui.collection_3.add_child(node_scene)
 		_:
 			print("BIG ISSUE WITH VALUE_INT ",value_int)
 
 	node_scene.json_file = "user://note_%s.json" % save_number
 	node_scene.name = "node_note:%s" % save_number
-	load_note(node_scene.json_file,first_child,second_child,node_scene)
+	if is_from_save == true:
+		load_note(node_scene.json_file,first_child,second_child,true,node_scene)
+	else:
+		load_note(node_scene.json_file,first_child,second_child,false,node_scene)
 
 #load container position from file
 func load_container(save_file:String) -> int:
@@ -277,12 +279,9 @@ func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 func save_nodes() -> void:
 	save_system_reuseable_base(save_path,"persist_nodes")
 
-#this is probably need to be used when more ui/ux aspects are implemented
 func load_node() -> void:
 	var child_nodes_collection:Array[Node] = Gui.collection_1.get_children() + Gui.collection_2.get_children() + Gui.collection_3.get_children()
-	print("CHILD_NODES",child_nodes_collection)
 	for node:Node in child_nodes_collection:
-		print("LOOK AT THiS",node.json_file)
 		var load_values:Dictionary = load_reusable(node.json_file,-1,true)
 		match node.get_parent():
 			Gui.collection_1:
@@ -295,9 +294,7 @@ func load_node() -> void:
 # handles variables file
 func save_variables() -> void:
 	var save_file := FileAccess.open(save_path_variables, FileAccess.WRITE)
-
 	var node_data:int = save_amount + 1
-
 	var json_string:String = JSON.stringify(node_data)
 
 	save_file.store_line(json_string)
@@ -317,7 +314,7 @@ func save() -> int:
 	print(save_int)
 	return save_int
 
-func correct_save_path() -> void:
+func correct_save_path() -> void: # TODO: I think there is an issue relating to the save files number skipping and its probably around here
 	if DirAccess.open(save_path_variables) != null: #checks if save_path_variables exits this is so it fixes and issue or something idk what this does tbh
 		print("correct_save_path first if")
 		save_amount += 1
