@@ -6,4 +6,4 @@ func _ready() -> void:
 	self.pressed.connect(_on_pressed)
 
 func _on_pressed() -> void:
-	modal_controller.show()
+	modal_controller.visible = not modal_controller.visible

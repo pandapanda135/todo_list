@@ -203,7 +203,6 @@ func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> voi
 	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like
 	var second_child:Node = node_scene.get_child(1)
 
-	#TODO: using call deffered on something like this causes issues of them not being called until the function finishes this could be used to get cleaner code in other places like into this
 	match value_int:
 		0:
 			Gui.collection_1.add_child(node_scene)
@@ -254,10 +253,6 @@ func increment_save_path() -> void:
 	print("path ",save_path)
 	save_variables()
 
-var save_amount_nodes:int = 0
-var save_amount_string_nodes:String = str(save_amount)
-var save_path_nodes:String = "user://node_%s.json" % save_amount_string
-
 func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 	var save_file := FileAccess.open(file_path, FileAccess.WRITE)
 	var save_nodes_persist := get_tree().get_nodes_in_group(group_name)
@@ -291,6 +286,7 @@ func load_node() -> void:
 				Gui.collection_2.move_child(node,load_values["save_int_2"])
 			Gui.collection_3:
 				Gui.collection_3.move_child(node,load_values["save_int_2"])
+		node.node_made.emit() # should fix issues with arrows not being correctly disabled
 
 # handles variables file
 func save_variables() -> void:

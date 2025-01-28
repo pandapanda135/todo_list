@@ -1,7 +1,6 @@
 extends Control
 
 signal node_made
-signal index_saving(timer_time:float,is_closing:bool)
 
 @onready var arrow_handler:Control = $ArrowHandler
 
@@ -15,15 +14,8 @@ signal index_saving(timer_time:float,is_closing:bool)
 
 @onready var root:Window = get_tree().get_root()
 var timer_running:bool = false
-@export var index_saving_timer:int = 300
-#declare the collection is will be in within the save file modfiy the save file code
-#to support this and also the function that adds the nodes to the scenes this can be done
-#by moving the code that spawn the code into the load_node function so it is being loaded
-#and moved which should be easier
+@export var index_saving_timer:int = 300 # this will not be a const as maybe allow user to change at runtime
 
-#TODO: add either a system to update a file or write over an exisiting file so new node position can be saved and also edit a note and also for index saving later
-#current idea is write over file by stealing code from load note and save note this can be done with 4 (or however many option arguments are needed)
-#and the new value will be passed through that there could also be another argument that can be an int that will decide the line that will be changed with a match statment
 func _ready() -> void:
 	var save_edit_button = get_node("ModalController/HFlowContainer/Control/SaveButton")
 	save_edit_button.get_save_file.connect(_get_save_file)
@@ -35,7 +27,7 @@ func _ready() -> void:
 
 	node_made.connect(_on_node_made)
 	node_made.emit.call_deferred()
-	index_saving.connect(_save_index)
+	SignalManager.index_saving.connect(_save_index)
 	first_arrow_visibility_check()
 
 func _get_save_file() -> void: # this is used for edit button
@@ -133,7 +125,7 @@ func move_node_vertical(Down:bool) -> void:
 
 	SignalManager.emit_signal("index_saving",index_saving_timer,false)
 
-#look if there is a node above or belo current node if so then keep button enabled else set disabled
+#look if there is a node above or below current node if so then keep button enabled else set disabled
 #this breaks if nodes are invisible as they are still in the tree however they dont display so only the appropriate nodes get disabled
 func check_arrow_visibility(last_parent:Node = null) -> void:
 	var child_nodes:Array[Node] = get_parent().get_children()
@@ -183,8 +175,6 @@ func first_arrow_visibility_check() -> void:
 	if self in child_nodes:
 		var node_index:int = child_nodes.find(self)
 		var node_index_1:int = node_index + 1
-		# print("OIGJSODGIO",max_index)
-		# print("IHDFSKJIOh",child_nodes[max_index - 2])
 		#up check
 		if child_nodes[node_index - 1] != child_nodes[-1]:
 			print("up not disabled")

@@ -1,5 +1,8 @@
 extends Node
 
+signal index_saving(timer_time:float,is_closing:bool)
+
+
 #handles quit notification
 var already_sent_close:bool = false
 func _notification(what):
