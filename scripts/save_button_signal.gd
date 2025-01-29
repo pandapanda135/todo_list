@@ -1,4 +1,4 @@
-extends Button
+extends interact_button
 
 signal get_save_file
 
@@ -11,9 +11,6 @@ signal get_save_file
 @onready var description_label:TextEdit = $"../DescriptionLabel"
 
 @export var save_note:bool
-
-func _ready() -> void:
-	self.pressed.connect(self._on_pressed)
 
 func _on_pressed() -> void:
 	if save_note == true:

@@ -1,7 +1,4 @@
-extends Button
-
-func _ready() -> void:
-	self.pressed.connect(_on_pressed)
+extends interact_button
 
 func _on_pressed() -> void:
 	var child_nodes:Array[Node] = get_tree().get_root().get_children()

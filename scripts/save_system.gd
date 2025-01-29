@@ -23,8 +23,10 @@ const SAVE_PATH_VARIABLES:String = "user://variables.json"
 
 func _ready() -> void:
 	if FileAccess.file_exists(SAVE_PATH_VARIABLES):
+		print("variables file exists")
 		load_variables()
 	else:
+		print("variables file doesnt exist")
 		save_variables() #should make variables file if doesnt exist
 
 	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above) (it might not be removed)
@@ -200,7 +202,7 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> void:
 	var value_int:int = load_container("user://note_%s.json" % save_number)
 	var node_scene:Control = preload(NOTE_NODE).instantiate()
-	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like
+	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like as this means title and description node need to always have their respective index
 	var second_child:Node = node_scene.get_child(1)
 
 	match value_int:
@@ -245,13 +247,13 @@ func delete_selected_file(save_string:String = "",json_file:String = "") -> void
 		print("remove successful")
 
 func increment_save_path() -> void:
+	save_variables()
 	save_amount += 1
 	save_amount_string = str(save_amount)
 	save_path = "user://note_%s.json" % save_amount_string
 	print("save ",save_amount)
 	print("save amount string ",save_amount_string)
 	print("path ",save_path)
-	save_variables()
 
 func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 	var save_file := FileAccess.open(file_path, FileAccess.WRITE)
@@ -275,6 +277,7 @@ func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 func save_nodes() -> void:
 	save_system_reuseable_base(save_path,"persist_nodes")
 
+#primarily handles correctly setting node position in parent
 func load_node() -> void:
 	var child_nodes_collection:Array[Node] = Gui.collection_1.get_children() + Gui.collection_2.get_children() + Gui.collection_3.get_children()
 	for node:Node in child_nodes_collection:
@@ -291,9 +294,9 @@ func load_node() -> void:
 # handles variables file
 func save_variables() -> void:
 	var save_file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.WRITE)
-	var node_data:int = save_amount + 1
-	var json_string:String = JSON.stringify(node_data)
+	var json_string:String = JSON.stringify(save_amount + 1)
 
+	print("running save_variable")
 	save_file.store_line(json_string)
 
 func load_variables() -> void:
@@ -311,13 +314,6 @@ func save() -> int:
 	print(save_int)
 	return save_int
 
-func correct_save_path() -> void: # TODO: I think there is an issue relating to the save files number skipping and its probably around here
-	if DirAccess.open(SAVE_PATH_VARIABLES) != null: #checks if SAVE_PATH_VARIABLES exits this is so it fixes and issue or something idk what this does tbh
-		print("correct_save_path first if")
-		save_amount += 1
-		save_variables()
-	else:
-		print("correct_save_path second if")
-		save_variables()
+func correct_save_path() -> void:
 	save_amount_string = str(save_amount)
 	save_path = "user://note_%s.json" % save_amount_string

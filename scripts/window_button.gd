@@ -1,12 +1,11 @@
-extends Button
+extends interact_button
 
 var window_scene:Window = preload("res://scenes/window_scene.tscn").instantiate()
 
-func _ready() -> void:
-	self.pressed.connect(_on_pressed)
-	#turn these on for transparent bg and also pixel perfect transparncey
-	# window_scene.transparent_bg = false
-	# window_scene.transparent = false
+
+# add these to _ready for transparent bg and also pixel perfect transparncey
+# window_scene.transparent_bg = false
+# window_scene.transparent = false
 
 func _on_pressed() -> void:
 	var child_nodes:Array[Node] = get_tree().get_root().get_children()

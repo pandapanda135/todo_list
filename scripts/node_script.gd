@@ -33,7 +33,7 @@ func _ready() -> void:
 func _get_save_file() -> void: # this is used for edit button
 	SaveSystem.selected_json_file = json_file
 
-func _save_index(save_time,is_closing) -> void: # modify this is it adds a 5 min timer that will have a signal that when over it will run this line
+func _save_index(save_time:int,is_closing:bool) -> void: # modify this is it adds a 5 min timer that will have a signal that when over it will run this line (issue where index is set to -1 until timer is finished)
 	print("SAVE_INDEX RUN")
 
 	if is_closing == true:
@@ -43,12 +43,10 @@ func _save_index(save_time,is_closing) -> void: # modify this is it adds a 5 min
 	if timer_running == false:
 		timer_running  = true
 		await get_tree().create_timer(save_time).timeout
-		print("THIS IS INDEx",self.get_index())
 		SaveSystem.change_note(json_file,3,"",self.get_index())
 		timer_running = false
 	else:
 		print("timer already exists")
-
 
 func check_node_position(clicked_node) -> void:
 	check_arrow_visibility()

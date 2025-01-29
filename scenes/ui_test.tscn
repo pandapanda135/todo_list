@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://4ohhu5aryk3p"]
 
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://scenes/Modal.tscn" id="3_a3yvw"]
-[ext_resource type="Script" path="res://scripts/button_3.gd" id="4_0gs84"]
 [ext_resource type="Script" path="res://scripts/add_note_ui.gd" id="4_70acs"]
+[ext_resource type="Script" path="res://scripts/load_index_button.gd" id="4_nbxnp"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="5_tkmw1"]
 
 [node name="Control" type="Control"]
@@ -83,7 +83,7 @@ offset_top = 1048.0
 offset_right = 1675.0
 offset_bottom = 1079.0
 text = "load index"
-script = ExtResource("4_0gs84")
+script = ExtResource("4_nbxnp")
 
 [editable path="ModalController"]
 [editable path="ModalController/HFlowContainer/Control"]
