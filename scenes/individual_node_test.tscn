@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dg8lmyc0ukc1u"]
+[gd_scene load_steps=8 format=3 uid="uid://dg8lmyc0ukc1u"]
 
 [ext_resource type="Script" path="res://scripts/node_script.gd" id="1_gbth7"]
 [ext_resource type="Script" path="res://scripts/window_button.gd" id="2_ecya8"]
+[ext_resource type="Texture2D" uid="uid://cwria8455p1rh" path="res://assets/Window.png" id="3_0se6n"]
 [ext_resource type="Script" path="res://scripts/delete_button.gd" id="3_ictxv"]
 [ext_resource type="Script" path="res://scripts/edit_button.gd" id="4_1npj4"]
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://scenes/Modal.tscn" id="5_yitny"]
+[ext_resource type="Texture2D" uid="uid://xoe6wq0hm13x" path="res://assets/edit.png" id="6_p7blp"]
 
 [node name="Control" type="Control" groups=["persist_nodes"]]
 layout_mode = 3
@@ -40,6 +42,8 @@ text_overrun_behavior = 3
 visible = false
 layout_direction = 2
 layout_mode = 1
+offset_left = 43.0
+offset_right = 43.0
 scale = Vector2(1, 1)
 
 [node name="DescriptionLabel" parent="ModalController/HFlowContainer/Control" index="1"]
@@ -104,6 +108,15 @@ offset_bottom = 104.0
 mouse_filter = 1
 text = "v"
 
+[node name="WindowButton2" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 1.0
+offset_right = 680.0
+offset_bottom = 513.0
+scale = Vector2(0.065, 0.065)
+texture_normal = ExtResource("3_0se6n")
+
 [node name="WindowButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 149.0
@@ -122,14 +135,14 @@ text = "Delete"
 flat = true
 script = ExtResource("3_ictxv")
 
-[node name="EditButton" type="Button" parent="."]
+[node name="EditButton" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 219.0
-offset_top = 30.0
-offset_right = 259.0
-offset_bottom = 61.0
-text = "edit"
-flat = true
+offset_left = 229.0
+offset_top = 27.0
+offset_right = 293.0
+offset_bottom = 91.0
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("6_p7blp")
 script = ExtResource("4_1npj4")
 
 [editable path="ModalController"]

@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://4ohhu5aryk3p"]
+[gd_scene load_steps=7 format=3 uid="uid://4ohhu5aryk3p"]
 
+[ext_resource type="Texture2D" uid="uid://8nalqu378oa4" path="res://assets/plus.png" id="2_mwutn"]
 [ext_resource type="PackedScene" uid="uid://d1dw4yunexyww" path="res://scenes/Modal.tscn" id="3_a3yvw"]
 [ext_resource type="Script" path="res://scripts/add_note_ui.gd" id="4_70acs"]
+[ext_resource type="Texture2D" uid="uid://r6ym0pf2m5vh" path="res://assets/file.png" id="4_m8enu"]
 [ext_resource type="Script" path="res://scripts/load_index_button.gd" id="4_nbxnp"]
 [ext_resource type="Script" path="res://scripts/save_location.gd" id="5_tkmw1"]
 
@@ -15,21 +17,23 @@ grow_vertical = 2
 
 [node name="Collection1" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_right = 569.0
-offset_bottom = 1081.0
+offset_left = 131.0
+offset_top = -2.0
+offset_right = 700.0
+offset_bottom = 1079.0
 mouse_filter = 2
 
 [node name="Collection2" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_left = 603.0
-offset_right = 1127.0
+offset_left = 744.0
+offset_right = 1268.0
 offset_bottom = 1084.0
 mouse_filter = 2
 
 [node name="Collection3" type="VFlowContainer" parent="."]
 layout_mode = 0
-offset_left = 1167.0
-offset_right = 1671.0
+offset_left = 1315.0
+offset_right = 1819.0
 offset_bottom = 1075.0
 mouse_filter = 2
 
@@ -43,47 +47,52 @@ layout_mode = 1
 
 [node name="ContainerSelect" parent="ModalController/HFlowContainer/Control" index="2" groups=["persist"]]
 
-[node name="Button" type="Button" parent="."]
+[node name="AddFileButton" type="TextureButton" parent="."]
 top_level = true
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -81.0
-offset_top = -30.0
-offset_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Add Note
-"
+anchors_preset = -1
+anchor_left = 0.0140625
+anchor_top = 0.0305556
+anchor_right = 0.0473958
+anchor_bottom = 0.0898148
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Create new note"
+texture_normal = ExtResource("2_mwutn")
 script = ExtResource("4_70acs")
+metadata/_edit_use_anchors_ = true
 
-[node name="Button2" type="Button" parent="."]
+[node name="FileLocationButton" type="TextureButton" parent="."]
 top_level = true
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -238.0
-offset_top = -31.0
-offset_right = -85.0
+anchors_preset = -1
+anchor_left = 0.0161458
+anchor_top = 0.12037
+anchor_right = 0.0494792
+anchor_bottom = 0.17963
 grow_horizontal = 0
 grow_vertical = 0
-text = "open save location"
+tooltip_text = "(DEBUG) opens save file location"
+texture_normal = ExtResource("4_m8enu")
 script = ExtResource("5_tkmw1")
+metadata/_edit_use_anchors_ = true
 
 [node name="Button3" type="Button" parent="."]
+top_level = true
 layout_mode = 0
-offset_left = 1586.0
-offset_top = 1048.0
-offset_right = 1675.0
-offset_bottom = 1079.0
+offset_left = 18.0
+offset_top = 1043.0
+offset_right = 107.0
+offset_bottom = 1074.0
 text = "load index"
 script = ExtResource("4_nbxnp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 130.0
+offset_bottom = 1083.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [editable path="ModalController"]
 [editable path="ModalController/HFlowContainer/Control"]
