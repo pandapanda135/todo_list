@@ -14,7 +14,7 @@ signal node_made
 
 @onready var root:Window = get_tree().get_root()
 var timer_running:bool = false
-@export var index_saving_timer:int = 300 # this will not be a const as maybe allow user to change at runtime
+var index_saving_timer:int = SaveSystem.save_cooldown
 
 func _ready() -> void:
 	var save_edit_button = get_node("ModalController/HFlowContainer/Control/SaveButton")

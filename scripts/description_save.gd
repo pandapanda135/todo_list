@@ -1,18 +1,7 @@
-extends Node
-
-var saved_text:String= ""
-
-func _ready() -> void:
-	self.text_changed.connect(_on_text_changed)
-
-func _on_text_changed() -> void:
-	if self.text == "":
-		print("empty description")
-	else:
-		saved_text = self.text
+extends text_manager
 
 func save() -> String:
-	var save_String_2:String = saved_text
-	saved_text = ""
+	var save_String_2:String = self.text
+	self.text = ""
 	print(save_String_2)
 	return save_String_2

@@ -2,9 +2,6 @@ extends Node
 
 signal load_node_signal
 
-@onready var label_title_node: Label = get_parent().get_node("/root/Control/TitleLabel")
-@onready var label_description_node: Label = get_parent().get_node("/root/Control/DescriptionLabel")
-
 @onready var control:Control = get_parent().get_node("/root/Control")
 
 var save_amount:int = 0
@@ -17,6 +14,8 @@ var selected_save_file:String = "user://note_%s.json" % selected_save_file_strin
 var selected_json_file:String
 
 var check_save_amount_correct:bool = true
+
+var save_cooldown:int = 300
 
 const NOTE_NODE:String = "res://scenes/individual_node_test.tscn"
 const SAVE_PATH_VARIABLES:String = "user://variables.json"
@@ -167,7 +166,9 @@ func save_overwrite(save_file:String,dict:Dictionary) -> void:
 
 func load_note(save_file:String,label_title:Node,label_description:Node,is_from_save:bool = false,node_arg:Control = null) -> void:
 	print("save_file",save_file)
-	var current_index:int = node_arg.call("save")
+	var current_index:int
+	if node_arg != null:
+		current_index = node_arg.call("save")
 	var value:Dictionary
 	if is_from_save == true: # is_from_save is also used in add_or_change_node to see if this is being called from save_note I know its bad and I also hate it but it works and I already made a mistake adding index saving
 		value = load_reusable(save_file,current_index,false)
@@ -292,7 +293,7 @@ func load_node() -> void:
 		node.node_made.emit() # should fix issues with arrows not being correctly disabled
 
 # handles variables file
-func save_variables() -> void:
+func save_variables() -> void: #TODO: save time_cooldown here (probably)
 	var save_file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.WRITE)
 	var json_string:String = JSON.stringify(save_amount + 1)
 
