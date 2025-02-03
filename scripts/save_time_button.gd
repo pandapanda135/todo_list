@@ -10,3 +10,4 @@ func _on_pressed() -> void:
 	var seconds_value:int = str_to_var(seconds.saved_text)
 	var time:int = minutes_value + seconds_value
 	SaveSystem.save_cooldown = time
+	SaveSystem.save_variables(true)

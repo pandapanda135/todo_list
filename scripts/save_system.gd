@@ -23,7 +23,9 @@ const SAVE_PATH_VARIABLES:String = "user://variables.json"
 func _ready() -> void:
 	if FileAccess.file_exists(SAVE_PATH_VARIABLES):
 		print("variables file exists")
-		load_variables()
+		var variables_value:Dictionary = load_variables_return()
+		save_amount = variables_value["save_amount"]
+		save_cooldown = variables_value["save_cooldown"]
 	else:
 		print("variables file doesnt exist")
 		save_variables() #should make variables file if doesnt exist
@@ -293,22 +295,30 @@ func load_node() -> void:
 		node.node_made.emit() # should fix issues with arrows not being correctly disabled
 
 # handles variables file
-func save_variables() -> void: #TODO: save time_cooldown here (probably)
+func save_variables(save_time = false) -> void:
 	var save_file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.WRITE)
-	var json_string:String = JSON.stringify(save_amount + 1)
+	var json_string:String = str(save_amount)
+	for i in range(2):
+		if i == 0 and save_time == false:
+			json_string = JSON.stringify(save_amount + 1)
+		elif i == 1:
+			json_string = JSON.stringify(save_cooldown)
 
-	print("running save_variable")
-	save_file.store_line(json_string)
+		save_file.store_line(json_string)
 
-func load_variables() -> void:
+func load_variables_return() -> Dictionary:
 	var file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.READ)
 	var json := JSON.new()
+	var json_2 := JSON.new()
 	json.parse(file.get_line())
+	json_2.parse(file.get_line())
 	var save_int := json.get_data() as int
+	var save_time := json_2.get_data() as int
 
-	print(save_int)
-
-	save_amount = save_int
+	return{
+		"save_amount": save_int,
+		"save_cooldown": save_time
+	}
 
 func save() -> int:
 	var save_int:int = save_amount
