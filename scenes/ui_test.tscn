@@ -41,6 +41,7 @@ offset_bottom = 1075.0
 mouse_filter = 2
 
 [node name="ModalController" parent="." instance=ExtResource("3_a3yvw")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
@@ -50,22 +51,15 @@ layout_mode = 1
 
 [node name="ContainerSelect" parent="ModalController/HFlowContainer/Control" index="2" groups=["persist"]]
 
-[node name="AddFileButton" type="TextureButton" parent="."]
-top_level = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.0140625
-anchor_top = 0.0305556
-anchor_right = 0.0473958
-anchor_bottom = 0.0898148
-grow_horizontal = 2
-grow_vertical = 2
-tooltip_text = "Create new note"
-texture_normal = ExtResource("2_mwutn")
-script = ExtResource("4_70acs")
-metadata/_edit_use_anchors_ = true
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 130.0
+offset_bottom = 1083.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
-[node name="Button3" type="Button" parent="."]
+[node name="Button3" type="Button" parent="ColorRect"]
+visible = false
 top_level = true
 layout_mode = 0
 offset_left = 18.0
@@ -75,7 +69,26 @@ offset_bottom = 1074.0
 text = "load index"
 script = ExtResource("4_nbxnp")
 
-[node name="SettingsButton" type="Button" parent="."]
+[node name="AddFileButton" type="TextureButton" parent="ColorRect"]
+top_level = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0140625
+anchor_top = 0.0305556
+anchor_right = 0.0473958
+anchor_bottom = 0.0898148
+offset_left = -3.43323e-05
+offset_top = -3.43323e-05
+offset_right = 3.8147e-05
+offset_bottom = 3.8147e-05
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Create new note"
+texture_normal = ExtResource("2_mwutn")
+script = ExtResource("4_70acs")
+metadata/_edit_use_anchors_ = true
+
+[node name="SettingsButton" type="Button" parent="ColorRect"]
 top_level = true
 layout_mode = 0
 offset_left = 18.0
@@ -85,7 +98,7 @@ offset_bottom = 1030.0
 text = "Settings"
 script = ExtResource("5_hbiq6")
 
-[node name="ColorRect" type="ColorRect" parent="SettingsButton"]
+[node name="ColorRect" type="ColorRect" parent="ColorRect/SettingsButton"]
 visible = false
 layout_mode = 0
 offset_left = 112.0
@@ -94,7 +107,7 @@ offset_right = 2591.0
 offset_bottom = 81.0
 color = Color(0.054902, 0.054902, 0.054902, 0.901961)
 
-[node name="FileLocationButton" type="TextureButton" parent="SettingsButton/ColorRect"]
+[node name="FileLocationButton" type="TextureButton" parent="ColorRect/SettingsButton/ColorRect"]
 top_level = true
 layout_mode = 1
 anchors_preset = -1
@@ -109,12 +122,12 @@ texture_normal = ExtResource("4_m8enu")
 script = ExtResource("5_tkmw1")
 metadata/_edit_use_anchors_ = true
 
-[node name="SaveTimeHandler" type="Control" parent="SettingsButton/ColorRect"]
+[node name="SaveTimeHandler" type="Control" parent="ColorRect/SettingsButton/ColorRect"]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MinutesInput" type="LineEdit" parent="SettingsButton/ColorRect/SaveTimeHandler"]
+[node name="MinutesInput" type="LineEdit" parent="ColorRect/SettingsButton/ColorRect/SaveTimeHandler"]
 layout_mode = 0
 offset_left = 119.0
 offset_top = 203.0
@@ -123,7 +136,7 @@ offset_bottom = 365.0
 max_length = 2
 script = ExtResource("7_cq7uw")
 
-[node name="SecondsInput" type="LineEdit" parent="SettingsButton/ColorRect/SaveTimeHandler"]
+[node name="SecondsInput" type="LineEdit" parent="ColorRect/SettingsButton/ColorRect/SaveTimeHandler"]
 layout_mode = 0
 offset_left = 249.0
 offset_top = 203.0
@@ -132,7 +145,7 @@ offset_bottom = 365.0
 max_length = 2
 script = ExtResource("7_cq7uw")
 
-[node name="SaveButton" type="Button" parent="SettingsButton/ColorRect/SaveTimeHandler"]
+[node name="SaveButton" type="Button" parent="ColorRect/SettingsButton/ColorRect/SaveTimeHandler"]
 layout_mode = 0
 offset_left = 250.0
 offset_top = 381.0
@@ -141,7 +154,7 @@ offset_bottom = 412.0
 text = "Save"
 script = ExtResource("7_t3iel")
 
-[node name="MinutesLabel" type="Label" parent="SettingsButton/ColorRect/SaveTimeHandler"]
+[node name="MinutesLabel" type="Label" parent="ColorRect/SettingsButton/ColorRect/SaveTimeHandler"]
 layout_mode = 0
 offset_left = 105.0
 offset_top = 158.0
@@ -150,7 +163,7 @@ offset_bottom = 203.0
 theme_override_font_sizes/font_size = 32
 text = "Minutes"
 
-[node name="SecondsLabel" type="Label" parent="SettingsButton/ColorRect/SaveTimeHandler"]
+[node name="SecondsLabel" type="Label" parent="ColorRect/SettingsButton/ColorRect/SaveTimeHandler"]
 layout_mode = 0
 offset_left = 295.0
 offset_top = 158.0
@@ -158,13 +171,6 @@ offset_right = 422.0
 offset_bottom = 203.0
 theme_override_font_sizes/font_size = 32
 text = "Seconds"
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 130.0
-offset_bottom = 1083.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
 
 [editable path="ModalController"]
 [editable path="ModalController/HFlowContainer/Control"]

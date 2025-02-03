@@ -23,14 +23,14 @@ const SAVE_PATH_VARIABLES:String = "user://variables.json"
 func _ready() -> void:
 	if FileAccess.file_exists(SAVE_PATH_VARIABLES):
 		print("variables file exists")
-		var variables_value:Dictionary = load_variables_return()
+		var variables_value:Dictionary = load_variables()
 		save_amount = variables_value["save_amount"]
 		save_cooldown = variables_value["save_cooldown"]
 	else:
 		print("variables file doesnt exist")
-		save_variables() #should make variables file if doesnt exist
+		save_variables() # make variables file if doesnt exist
 
-	# this is used to find the amount of files in dir stole from offical documentation (this will be removed for one of the methods described above) (it might not be removed)
+	# this is used to find the amount of files in dir
 	var dir:DirAccess = DirAccess.open("user://")
 	var file_name_array:Array[String]
 	if dir:
@@ -187,6 +187,19 @@ func load_note(save_file:String,label_title:Node,label_description:Node,is_from_
 		label_title.text = value["save_string"]
 		label_description.text = value["save_string_2"]
 
+func delete_file(note_string:String = "",json_file:String = "") -> void: # note_string used for int as string json_file used for full file path
+	var save_file:String
+	if note_string != "":
+		save_file = "user://note_%s.json" % note_string
+	else:
+		save_file = json_file
+
+	if DirAccess.remove_absolute(save_file) == 1:
+		print("this does not exist")
+	else:
+		DirAccess.remove_absolute(save_file)
+		print("remove successful")
+
 func change_note(save_file:String,line_change:int,string_change:String = "",int_change:int = -1) -> void:
 	var value:Dictionary = load_reusable(save_file)
 	match line_change:
@@ -199,16 +212,16 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 		3:
 			value["save_int_2"] = int_change
 		_:
-			print("line_change is too high")
+			printerr("line_change is too high")
 	save_overwrite(save_file,value)
 
 func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> void:
-	var value_int:int = load_container("user://note_%s.json" % save_number)
+	save_number = load_container("user://note_%s.json" % save_number)
 	var node_scene:Control = preload(NOTE_NODE).instantiate()
 	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like as this means title and description node need to always have their respective index
 	var second_child:Node = node_scene.get_child(1)
 
-	match value_int:
+	match save_number:
 		0:
 			Gui.collection_1.add_child(node_scene)
 		1:
@@ -216,7 +229,7 @@ func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> voi
 		2:
 			Gui.collection_3.add_child(node_scene)
 		_:
-			print("BIG ISSUE WITH VALUE_INT ",value_int)
+			print("issue with value int ",save_number)
 
 	node_scene.json_file = "user://note_%s.json" % save_number
 	node_scene.name = "node_note:%s" % save_number
@@ -233,30 +246,7 @@ func load_container(save_file:String) -> int:
 	for i in range(0,3):
 		json.parse(file.get_line())
 		save_int = json.get_data() as int
-	print("LOAD_CONTAINOR save_int ",save_int)
 	return save_int
-
-func delete_selected_file(save_string:String = "",json_file:String = "") -> void:
-	if save_string != "":
-		selected_save_file_string = save_string
-		selected_save_file = "user://note_%s.json" % selected_save_file_string
-	else:
-		selected_save_file = json_file
-
-	if DirAccess.remove_absolute(selected_save_file) == 1:
-		print("this does not exist")
-	else:
-		DirAccess.remove_absolute(selected_save_file)
-		print("remove successful")
-
-func increment_save_path() -> void:
-	save_variables()
-	save_amount += 1
-	save_amount_string = str(save_amount)
-	save_path = "user://note_%s.json" % save_amount_string
-	print("save ",save_amount)
-	print("save amount string ",save_amount_string)
-	print("path ",save_path)
 
 func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 	var save_file := FileAccess.open(file_path, FileAccess.WRITE)
@@ -278,7 +268,7 @@ func save_system_reuseable_base(file_path:String,group_name:String) -> void:
 		save_file.store_line(json_string)
 
 func save_nodes() -> void:
-	save_system_reuseable_base(save_path,"persist_nodes")
+	save_system_reuseable_base(save_path,"persist_nodes") #used for getting node index
 
 #primarily handles correctly setting node position in parent
 func load_node() -> void:
@@ -298,15 +288,15 @@ func load_node() -> void:
 func save_variables(save_time = false) -> void:
 	var save_file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.WRITE)
 	var json_string:String = str(save_amount)
-	for i in range(2):
-		if i == 0 and save_time == false:
+	for line:int in range(2):
+		if line == 0 and save_time == false:
 			json_string = JSON.stringify(save_amount + 1)
-		elif i == 1:
+		elif line == 1:
 			json_string = JSON.stringify(save_cooldown)
 
 		save_file.store_line(json_string)
 
-func load_variables_return() -> Dictionary:
+func load_variables() -> Dictionary:
 	var file := FileAccess.open(SAVE_PATH_VARIABLES, FileAccess.READ)
 	var json := JSON.new()
 	var json_2 := JSON.new()
@@ -321,10 +311,18 @@ func load_variables_return() -> Dictionary:
 	}
 
 func save() -> int:
-	var save_int:int = save_amount
-	print(save_int)
-	return save_int
+	print(save_amount)
+	return save_amount
 
 func correct_save_path() -> void:
 	save_amount_string = str(save_amount)
 	save_path = "user://note_%s.json" % save_amount_string
+
+func increment_save_path() -> void:
+	save_variables()
+	save_amount += 1
+	save_amount_string = str(save_amount)
+	save_path = "user://note_%s.json" % save_amount_string
+	print("save ",save_amount)
+	print("save amount string ",save_amount_string)
+	print("path ",save_path)
