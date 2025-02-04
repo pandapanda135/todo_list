@@ -1,6 +1,7 @@
 extends Node
 
 signal index_saving(timer_time:float,is_closing:bool)
+signal change_timer_cooldown
 
 
 #handles quit notification

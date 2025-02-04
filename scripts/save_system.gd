@@ -216,12 +216,14 @@ func change_note(save_file:String,line_change:int,string_change:String = "",int_
 	save_overwrite(save_file,value)
 
 func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> void:
-	var load_container_index = load_container("user://note_%s.json" % save_number)
 	var node_scene:Control = preload(NOTE_NODE).instantiate()
-	var first_child:Node = node_scene.get_child(0) # ? change this later because I dont like as this means title and description node need to always have their respective index
-	var second_child:Node = node_scene.get_child(1)
+	var first_child:Node = node_scene.get_node("TitleLabel")
+	var second_child:Node = node_scene.get_node("DescriptionLabel")
+	node_scene.json_file = "user://note_%s.json" % save_number
+	node_scene.name = "node_note:%s" % save_number
 
-	match load_container_index: # this changes which container it will appear in
+	save_number = load_container("user://note_%s.json" % save_number)
+	match save_number: # this changes which container it will appear in
 		0:
 			Gui.collection_1.add_child(node_scene)
 		1:
@@ -229,10 +231,8 @@ func add_and_change_made_nodes(save_number:int,is_from_save:bool = false) -> voi
 		2:
 			Gui.collection_3.add_child(node_scene)
 		_:
-			print("issue with load_container_index int ",load_container_index)
+			print("issue with save_number int ",save_number)
 
-	node_scene.json_file = "user://note_%s.json" % save_number
-	node_scene.name = "node_note:%s" % save_number
 	if is_from_save == true:
 		load_note(node_scene.json_file,first_child,second_child,true,node_scene)
 	else:

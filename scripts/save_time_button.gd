@@ -11,3 +11,4 @@ func _on_pressed() -> void:
 	var time:int = minutes_value + seconds_value
 	SaveSystem.save_cooldown = time
 	SaveSystem.save_variables(true)
+	SignalManager.emit_signal("change_timer_cooldown")

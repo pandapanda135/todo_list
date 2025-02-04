@@ -28,6 +28,7 @@ func _ready() -> void:
 	node_made.connect(_on_node_made)
 	node_made.emit.call_deferred()
 	SignalManager.index_saving.connect(_save_index)
+	SignalManager.change_timer_cooldown.connect(_change_timer_cooldown)
 	first_arrow_visibility_check()
 
 func _get_save_file() -> void: # this is used for edit button
@@ -47,6 +48,9 @@ func _save_index(save_time:int,is_closing:bool) -> void: # modify this is it add
 		timer_running = false
 	else:
 		print("timer already exists")
+
+func _change_timer_cooldown() -> void:
+	index_saving_timer = SaveSystem.save_cooldown
 
 func check_node_position(clicked_node) -> void:
 	check_arrow_visibility()
