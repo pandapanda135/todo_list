@@ -54,7 +54,7 @@ layout_mode = 1
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 130.0
-offset_bottom = 1083.0
+offset_bottom = 1528.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
@@ -171,6 +171,16 @@ offset_right = 422.0
 offset_bottom = 203.0
 theme_override_font_sizes/font_size = 32
 text = "Seconds"
+
+[node name="Background" type="ColorRect" parent="."]
+show_behind_parent = true
+z_index = -1
+layout_mode = 0
+offset_left = 130.0
+offset_right = 2592.0
+offset_bottom = 1524.0
+mouse_filter = 2
+color = Color(0.0962047, 0.0962048, 0.0962047, 1)
 
 [editable path="ModalController"]
 [editable path="ModalController/HFlowContainer/Control"]
