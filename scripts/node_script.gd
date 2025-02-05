@@ -34,10 +34,12 @@ func _ready() -> void:
 func _get_save_file() -> void: # this is used for edit button
 	SaveSystem.selected_json_file = json_file
 
+var node_has_saved:bool = false
 func _save_index(save_time:int,is_closing:bool) -> void: # modify this is it adds a 5 min timer that will have a signal that when over it will run this line (issue where index is set to -1 until timer is finished)
 	print("SAVE_INDEX RUN")
 
-	if is_closing == true:
+	if is_closing == true and node_has_saved == false:
+		node_has_saved = true
 		SaveSystem.change_note(json_file,3,"",self.get_index())
 		return
 
@@ -217,7 +219,9 @@ func save() -> int:
 	return self.get_index()
 
 #handles saving index when closed
+var already_sent:bool = false
 func _notification(what):
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and already_sent == false:
+		already_sent = true
 		SignalManager.emit_signal("index_saving",0,true)
 		get_tree().quit()

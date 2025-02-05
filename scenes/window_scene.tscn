@@ -61,3 +61,11 @@ Efficitur vivamus inceptos felis fringilla tortor mus. Molestie gravida fusce su
 
 Aptent nec vulputate per proin consectetur suscipit ante felis. Proin nibh laoreet aptent; porttitor mauris urna. Nostra nullam cras nostra etiam scelerisque et. Molestie penatibus inceptos molestie vehicula nunc malesuada tincidunt. Venenatis libero at congue pulvinar elementum! Vitae vestibulum facilisi cubilia aenean quisque donec integer cursus. Ad sociosqu sed venenatis elementum lorem augue facilisi curae primis. Suspendisse dolor consectetur venenatis posuere tempus maecenas. Justo finibus praesent enim porttitor id tristique elementum mollis."
 autowrap_mode = 3
+
+[node name="Background" type="ColorRect" parent="Control"]
+show_behind_parent = true
+z_index = -1
+layout_mode = 0
+offset_right = 40000.0
+offset_bottom = 400000.0
+color = Color(0, 0, 0, 1)
